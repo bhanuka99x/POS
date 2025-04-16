@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="132.0" fitWidth="157.0" layoutX="134.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/logo/pos.me.png" />
+         </image>
+      </ImageView>
+      <ProgressIndicator layoutX="185.0" layoutY="188.0" prefHeight="27.0" prefWidth="30.0" />
+      <Label alignment="CENTER" layoutX="163.0" layoutY="251.0" opacity="0.71" prefHeight="18.0" prefWidth="74.0" text="Version 1.0" textAlignment="CENTER" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="163.0" AnchorPane.rightAnchor="163.0" AnchorPane.topAnchor="251.0" />
+   </children>
+</AnchorPane>
