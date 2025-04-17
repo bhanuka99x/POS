@@ -1,7 +1,7 @@
 module com.posapp {
-    requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.graphics;
+    requires com.almasb.fxgl.scene;
+    requires javafx.controls;
 
     opens com.posapp.controllers to javafx.fxml;
     exports com.posapp;

@@ -6,14 +6,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="loadinback" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.LoadingScreenController">
    <children>
-      <ImageView fitHeight="132.0" fitWidth="157.0" layoutX="134.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="logoimage" fitHeight="92.0" fitWidth="111.0" layoutX="131.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../assets/logo/pos.me.png" />
+            <Image url="@../assets/logo/pos.me.crop3.png" />
          </image>
       </ImageView>
-      <ProgressIndicator layoutX="185.0" layoutY="188.0" prefHeight="27.0" prefWidth="30.0" />
-      <Label alignment="CENTER" layoutX="163.0" layoutY="251.0" opacity="0.71" prefHeight="18.0" prefWidth="74.0" text="Version 1.0" textAlignment="CENTER" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="163.0" AnchorPane.rightAnchor="163.0" AnchorPane.topAnchor="251.0" />
+      <ProgressIndicator fx:id="progressindicator" layoutX="163.0" layoutY="155.0" prefHeight="27.0" prefWidth="30.0" />
+      <Label fx:id="lblversion" alignment="CENTER" layoutX="128.0" layoutY="205.0" opacity="0.71" prefHeight="27.0" prefWidth="94.0" text="Version 1.0" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="128.0" AnchorPane.topAnchor="205.0" />
    </children>
 </AnchorPane>
