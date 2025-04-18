@@ -8,43 +8,48 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="329.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.LoginScreenController">
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="329.0" styleClass="login-background" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.LoginScreenController">
    <children>
-      <TextField fx:id="txtuser" alignment="TOP_CENTER" layoutX="56.0" layoutY="158.0" prefHeight="32.0" prefWidth="218.0" promptText="Username" style="-fx-border-color: black;">
+      <TextField fx:id="txtuser" alignment="CENTER" focusTraversable="false" layoutX="56.0" layoutY="145.0" prefHeight="32.0" prefWidth="218.0" promptText="Username" styleClass="custom-user" stylesheets="@../css/Application.css">
          <font>
-            <Font size="15.0" />
+            <Font size="13.0" />
          </font>
       </TextField>
-      <PasswordField fx:id="txtpassword" alignment="TOP_CENTER" layoutX="55.0" layoutY="240.0" prefHeight="32.0" prefWidth="218.0" promptText="Password" style="-fx-border-color: black;">
+      <PasswordField fx:id="txtpassword" alignment="TOP_CENTER" focusTraversable="false" layoutX="55.0" layoutY="214.0" prefHeight="32.0" prefWidth="218.0" promptText="Password" styleClass="custom-password">
          <font>
-            <Font size="15.0" />
+            <Font size="13.0" />
          </font>
       </PasswordField>
-      <Button fx:id="btnlogin" alignment="TOP_CENTER" layoutX="78.0" layoutY="317.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="173.0" style="-fx-background-color: black;" text="Login" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
+      <Button fx:id="btnlogin" alignment="CENTER" layoutX="78.0" layoutY="284.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="173.0" styleClass="custom-btnlogin" stylesheets="@../css/Application.css" text="Login" textAlignment="CENTER" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
       </Button>
-      <ImageView fitHeight="71.0" fitWidth="64.0" layoutX="132.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="71.0" fitWidth="64.0" layoutX="134.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="331.4414405822754" AnchorPane.leftAnchor="134.0" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="37.0">
          <image>
             <Image url="@../assets/logo/pos.me.crop3.png" />
          </image>
       </ImageView>
       <Label layoutX="129.0" layoutY="388.0" prefHeight="26.0" prefWidth="72.0" text="version 1.0" />
-      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="55.0" layoutY="159.0" pickOnBounds="true">
+      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="55.0" layoutY="140.0" pickOnBounds="true">
          <image>
             <Image url="@../assets/userpass/user.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="55.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="55.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/userpass/padlock.png" />
          </image>
       </ImageView>
+      <Button fx:id="btnexit" alignment="CENTER" layoutX="112.0" layoutY="344.0" mnemonicParsing="false" onAction="#closeapp" prefHeight="32.0" prefWidth="106.0" styleClass="custom-exit" stylesheets="@../css/Application.css" text="Exit" textAlignment="CENTER" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Button>
+      <Line endX="117.0" layoutX="157.0" layoutY="177.0" startX="-100.0" strokeWidth="1.2" />
+      <Line endX="117.0" layoutX="157.0" layoutY="246.0" startX="-100.0" strokeWidth="1.2" />
    </children>
 </AnchorPane>

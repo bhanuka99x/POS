@@ -1,0 +1,25 @@
+.custom-user {
+   -fx-background-color: transparent;
+    -fx-padding: 5 0 5 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0;
+
+
+}
+.custom-password {
+    -fx-background-color: transparent;
+    -fx-padding: 5 0 5 0;
+}
+.custom-btnlogin{
+    -fx-background-color: #00102b;
+    -fx-font-size: 15px;
+    -fx-text-alignment: center;
+    -fx-border-radius: 3;
+}
+.custom-exit {
+    -fx-background-color: #1982ff;
+    -fx-font-size: 12px;
+    -fx-text-alignment: center;
+    -fx-border-radius: 50;
+}

@@ -9,8 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.scene.paint.Paint;
+import javafx.stage.StageStyle;
 
-public class LoadingScreenController {
+public class LoadingScreenController extends LoginScreenController{
 
     @FXML
     private Label lblversion;
@@ -36,22 +38,6 @@ public class LoadingScreenController {
         }).start();
     }
 
-    private void showlogin(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/login_screen.fxml"));
-            Scene loginscene = new Scene(loader.load());
-            Stage loginstage = new Stage();
-            loginstage.setScene(loginscene);
-            loginstage.show();
 
-            Stage loadingstage = (Stage) progressindicator.getScene().getWindow();
-            loadingstage.close();
-
-        }catch (Exception e ){
-            e.printStackTrace();
-
-        }
-
-    }
 
 }
