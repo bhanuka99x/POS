@@ -1,5 +1,9 @@
 package com.posapp.controllers;
+import com.posapp.dbconnection.dbconn;
+
+
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,8 +13,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-public class LoginScreenController {
+public class LoginScreenController extends OperatorDashboardController {
 
     @FXML
     private Button btnlexit;
@@ -34,7 +41,46 @@ public class LoginScreenController {
     @FXML
     private ProgressIndicator progressindicator;
 
-    protected void showlogin(){
+
+
+    public void loginsystem(ActionEvent event){
+
+        String username = txtuser.getText();
+        String password = txtpassword.getText();
+
+        if(username.isEmpty() || password.isEmpty()){
+            showAlert(Alert.AlertType.ERROR,"Please enter username and password");
+            return;
+        }
+        try(Connection conn = dbconn.connect() ){
+            String sql = "SELECT * FROM users WHERE user_name= ? AND password_hash = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1,username);
+            stmt.setString(2,password);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                String role =  rs.getString("role");
+                showAlert(Alert.AlertType.INFORMATION, "Login successful! Logged in as: " + role);
+                load_dashboard();
+
+                Stage curruntstage = (Stage) txtuser.getScene().getWindow();
+                curruntstage.close();
+
+
+            }else{
+                showAlert(Alert.AlertType.ERROR, "Invalid username or password.");
+            }
+
+
+        }catch (Exception e){
+            showAlert(Alert.AlertType.ERROR, "Invalid username or password.");
+        }
+
+
+
+    }
+
+    protected void show_login(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/login_screen.fxml"));
             Scene loginscene = new Scene(loader.load());
@@ -46,6 +92,7 @@ public class LoginScreenController {
             Stage loadingstage = (Stage) progressindicator.getScene().getWindow();
             loadingstage.close();
 
+
         }catch (Exception e ){
             e.printStackTrace();
 
@@ -53,7 +100,8 @@ public class LoginScreenController {
 
     }
 
-   public void closeapp(){
+    @FXML
+    private void closelogin(){
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Exit");
         confirm.setHeaderText(null);
@@ -63,4 +111,11 @@ public class LoginScreenController {
             Platform.exit();
         }
    }
+
+    private void showAlert(Alert.AlertType type, String message) {
+        Alert alert = new Alert(type);
+        alert.setContentText(message);
+        alert.show();
+    }
+
 }

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
@@ -29,15 +30,12 @@ public class LoadingScreenController extends LoginScreenController{
 
         new Thread(() ->{
             try{
-                Thread.sleep(3000);
-                Platform.runLater(this::showlogin );
+                Thread.sleep(1000);
+                Platform.runLater(this::show_login );
             }catch (InterruptedException e){
                 e.printStackTrace();
             }
 
         }).start();
     }
-
-
-
 }
