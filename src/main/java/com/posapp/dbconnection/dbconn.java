@@ -10,15 +10,16 @@ public class dbconn {
     public static Connection connect() {
         try {
             Connection conn = DriverManager.getConnection(URL, Username, Password);
-            System.out.println("✅ Database connected!");
+            System.out.println("Database connected!");
             return conn;
         } catch (SQLException e) {
-            System.out.println("❌ Database connection failed!");
+            System.out.println("Database connection failed!");
             e.printStackTrace();
             return null;
         }
 
     }
+
 
 }
 

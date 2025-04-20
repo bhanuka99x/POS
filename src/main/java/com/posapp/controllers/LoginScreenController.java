@@ -1,5 +1,6 @@
 package com.posapp.controllers;
 import com.posapp.dbconnection.dbconn;
+import com.posapp.util.Alerts;
 
 
 import javafx.application.Platform;
@@ -9,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -31,7 +34,6 @@ public class LoginScreenController extends OperatorDashboardController {
     @FXML
     private TextField txtuser;
 
-
     @FXML
     private Label lblversion;
 
@@ -41,15 +43,31 @@ public class LoginScreenController extends OperatorDashboardController {
     @FXML
     private ProgressIndicator progressindicator;
 
+    @FXML
+    private void handleKeyevent(KeyEvent event){
+        if(event.getCode() == KeyCode.ENTER){
+            loginsystem();
+        }
+        if(event.getCode() ==KeyCode.ESCAPE){
+            closelogin();
+        }
+    }
 
+    @FXML
+    private void closelogin(){
 
-    public void loginsystem(ActionEvent event){
+        if(Alerts.showconfirmation("Exit","Are you sure you want to exit?")){
+            Platform.exit();
+        }
+    }
+
+    public void loginsystem(){
 
         String username = txtuser.getText();
         String password = txtpassword.getText();
 
         if(username.isEmpty() || password.isEmpty()){
-            showAlert(Alert.AlertType.ERROR,"Please enter username and password");
+            Alerts.showError("Error","Please enter username and password");
             return;
         }
         try(Connection conn = dbconn.connect() ){
@@ -58,26 +76,19 @@ public class LoginScreenController extends OperatorDashboardController {
             stmt.setString(1,username);
             stmt.setString(2,password);
             ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                String role =  rs.getString("role");
-                showAlert(Alert.AlertType.INFORMATION, "Login successful! Logged in as: " + role);
-                load_dashboard();
 
+            if(rs.next()){
                 Stage curruntstage = (Stage) txtuser.getScene().getWindow();
                 curruntstage.close();
-
+                load_dashboard();
 
             }else{
-                showAlert(Alert.AlertType.ERROR, "Invalid username or password.");
+                Alerts.showError("Error", "Invalid username or password.");
             }
 
-
         }catch (Exception e){
-            showAlert(Alert.AlertType.ERROR, "Invalid username or password.");
+            Alerts.showError("Error", "Invalid username or password.");
         }
-
-
-
     }
 
     protected void show_login(){
@@ -91,31 +102,11 @@ public class LoginScreenController extends OperatorDashboardController {
             loginstage.show();
             Stage loadingstage = (Stage) progressindicator.getScene().getWindow();
             loadingstage.close();
-
-
         }catch (Exception e ){
             e.printStackTrace();
 
         }
 
-    }
-
-    @FXML
-    private void closelogin(){
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Exit");
-        confirm.setHeaderText(null);
-        confirm.setContentText("Are you sure you want to exit?");
-
-        if(confirm.showAndWait().get() == ButtonType.OK){
-            Platform.exit();
-        }
-   }
-
-    private void showAlert(Alert.AlertType type, String message) {
-        Alert alert = new Alert(type);
-        alert.setContentText(message);
-        alert.show();
     }
 
 }

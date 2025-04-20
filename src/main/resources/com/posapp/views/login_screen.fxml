@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="329.0" styleClass="login-background" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.LoginScreenController">
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleKeyevent" prefHeight="431.0" prefWidth="329.0" styleClass="login-background" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.LoginScreenController">
    <children>
       <TextField fx:id="txtuser" alignment="CENTER" focusTraversable="false" layoutX="56.0" layoutY="145.0" prefHeight="32.0" prefWidth="218.0" promptText="Username" styleClass="custom-user" stylesheets="@../css/Application.css">
          <font>
