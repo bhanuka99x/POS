@@ -20,7 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class LoginScreenController extends OperatorDashboardController {
+public class LoginScreenController  {
 
     @FXML
     private Button btnlexit;
@@ -78,9 +78,11 @@ public class LoginScreenController extends OperatorDashboardController {
             ResultSet rs = stmt.executeQuery();
 
             if(rs.next()){
+                String role = rs.getString("role");
+                System.out.println("user role" + role );
                 Stage curruntstage = (Stage) txtuser.getScene().getWindow();
                 curruntstage.close();
-                load_dashboard();
+                load_dashboard(role);
 
             }else{
                 Alerts.showError("Error", "Invalid username or password.");
@@ -107,6 +109,20 @@ public class LoginScreenController extends OperatorDashboardController {
 
         }
 
+    }
+    private void load_dashboard(String role) {
+        try {
+            FXMLLoader loaderop = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
+            Scene dashscene = new Scene(loaderop.load());
+            Stage dashstage = new Stage();
+            dashstage.setScene(dashscene);
+
+            OperatorDashboardController operatorDashboardController = loaderop.getController();
+            operatorDashboardController.setUserRole(role);
+            dashstage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
