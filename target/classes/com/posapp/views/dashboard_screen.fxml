@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.OperatorDashboardController">
-   <children>
-      <Label layoutX="258.0" layoutY="183.0" text="dashboard" />
-   </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.OperatorDashboardController">
+   <left>
+      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="159.0" spacing="30.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="77.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/logo/pos.me.crop3.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="txtlbl" prefHeight="29.0" prefWidth="122.0" text="Label" />
+            <Button fx:id="btnmenu" mnemonicParsing="false" onAction="#clickmenu" prefHeight="40.0" prefWidth="130.0" text="Menu" />
+            <Button fx:id="btninventory" mnemonicParsing="false" onAction="#clickinventory" prefHeight="40.0" prefWidth="130.0" text="Inventory" />
+            <Button fx:id="btncustomers" mnemonicParsing="false" onAction="#clickcustomers" prefHeight="40.0" prefWidth="130.0" text="Customers" />
+            <Button fx:id="btnorders" mnemonicParsing="false" onAction="#clickorders" prefHeight="40.0" prefWidth="130.0" text="Orders" />
+            <Button fx:id="btnreports" mnemonicParsing="false" onAction="#clickreports" prefHeight="40.0" prefWidth="130.0" text="Reports" />
+            <Button fx:id="btnlogout" mnemonicParsing="false" onAction="#clicklogout" text="Log out" />
+         </children>
+      </VBox>
+   </left>
+</BorderPane>
