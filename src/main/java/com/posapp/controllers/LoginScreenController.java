@@ -4,7 +4,6 @@ import com.posapp.util.Alerts;
 
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +14,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -110,12 +108,13 @@ public class LoginScreenController  {
         }
 
     }
-    private void load_dashboard(String role) {
+    public void load_dashboard(String role) {
         try {
             FXMLLoader loaderop = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
             Scene dashscene = new Scene(loaderop.load());
             Stage dashstage = new Stage();
             dashstage.setScene(dashscene);
+            dashstage.setMaximized(true);
 
             OperatorDashboardController operatorDashboardController = loaderop.getController();
             operatorDashboardController.setUserRole(role);

@@ -4,26 +4,30 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.OperatorDashboardController">
-   <left>
-      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="159.0" spacing="30.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="77.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/logo/pos.me.crop3.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="txtlbl" prefHeight="29.0" prefWidth="122.0" text="Label" />
-            <Button fx:id="btnmenu" mnemonicParsing="false" onAction="#clickmenu" prefHeight="40.0" prefWidth="130.0" text="Menu" />
-            <Button fx:id="btninventory" mnemonicParsing="false" onAction="#clickinventory" prefHeight="40.0" prefWidth="130.0" text="Inventory" />
-            <Button fx:id="btncustomers" mnemonicParsing="false" onAction="#clickcustomers" prefHeight="40.0" prefWidth="130.0" text="Customers" />
-            <Button fx:id="btnorders" mnemonicParsing="false" onAction="#clickorders" prefHeight="40.0" prefWidth="130.0" text="Orders" />
-            <Button fx:id="btnreports" mnemonicParsing="false" onAction="#clickreports" prefHeight="40.0" prefWidth="130.0" text="Reports" />
-            <Button fx:id="btnlogout" mnemonicParsing="false" onAction="#clicklogout" text="Log out" />
-         </children>
-      </VBox>
-   </left>
-</BorderPane>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.OperatorDashboardController">
+   <children>
+      <AnchorPane prefHeight="629.0" prefWidth="600.0">
+         <VBox alignment="CENTER" prefHeight="600.0" prefWidth="164.0" spacing="25.0" style="-fx-background-color: gray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+               <ImageView fitHeight="57.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../assets/logo/pos.me.crop3.png" />
+                  </image>
+               </ImageView>
+               <Label fx:id="txtlbl" prefHeight="29.0" prefWidth="122.0" text="Label" />
+               <Button fx:id="btnmenu" mnemonicParsing="false" onAction="#clickmenu" prefHeight="40.0" prefWidth="130.0" text="Menu" />
+               <Button fx:id="btninventory" mnemonicParsing="false" onAction="#clickinventory" prefHeight="40.0" prefWidth="130.0" text="Inventory" />
+               <Button fx:id="btncustomers" mnemonicParsing="false" onAction="#clickcustomers" prefHeight="40.0" prefWidth="130.0" text="Customers" />
+               <Button fx:id="btnorders" mnemonicParsing="false" onAction="#clickorders" prefHeight="40.0" prefWidth="130.0" text="Orders" />
+               <Button fx:id="btnreports" mnemonicParsing="false" onAction="#clickreports" prefHeight="40.0" prefWidth="130.0" text="Reports" />
+               <Button fx:id="btnope" mnemonicParsing="false" onAction="#clickope" prefHeight="40.0" prefWidth="130.0" text="Operators" />
+               <Button fx:id="btnlogout" mnemonicParsing="false" onAction="#clicklogout" text="Log out" />
+            </children>
+         </VBox>
+      </AnchorPane>
+   </children>
+</StackPane>
