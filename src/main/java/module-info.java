@@ -4,6 +4,7 @@ module com.posapp {
     requires javafx.controls;
     requires java.sql;
     requires eu.hansolo.toolbox;
+    requires java.desktop;
 
     opens com.posapp.controllers to javafx.fxml, javafx.base;
     exports com.posapp;

@@ -46,7 +46,15 @@ public class OperatorDashboardController {
     }
 
     @FXML
-    void clickinventory(ActionEvent event) {
+    void clickinventory(ActionEvent event) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_inventory.fxml"));
+        Scene invtscene = new Scene(loader.load());
+        Stage invtstage = new Stage();
+        invtstage.setScene(invtscene);
+        invtstage.setMaximized(true);
+        invtstage.show();
+        Stage currentstage = (Stage) txtlbl.getScene().getWindow();
+        currentstage.close();
 
     }
 

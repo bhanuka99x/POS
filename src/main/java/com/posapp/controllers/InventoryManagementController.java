@@ -1,5 +1,9 @@
 package com.posapp.controllers;
 
+import com.posapp.dbconnection.dbconn;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -7,7 +11,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+
+import javax.swing.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.*;
 
 public class InventoryManagementController {
 
@@ -51,16 +65,16 @@ public class InventoryManagementController {
     private ImageView imageview;
 
     @FXML
-    private TableColumn<?, ?> namecell;
+    private TableColumn<InventoryItem, String> namecell;
 
     @FXML
-    private TableColumn<?, ?> pricecell;
+    private TableColumn<InventoryItem, Double> pricecell;
 
     @FXML
-    private TableColumn<?, ?> quantitycell;
+    private TableColumn<InventoryItem, Integer > quantitycell;
 
     @FXML
-    private TableView<?> tblinventory;
+    private TableView<InventoryItem> tblinventory;
 
     @FXML
     private Label txtlbl;
@@ -74,8 +88,36 @@ public class InventoryManagementController {
     @FXML
     private TextField txtquantity;
 
+    private ObservableList<InventoryItem> Inventorylist = FXCollections.observableArrayList();
+    private File selectedImageFile;
+
     @FXML
     void clickadd(ActionEvent event) {
+        String name = txtname.getText();
+        int qty = Integer.parseInt(txtquantity.getText());
+        double price = Double.parseDouble(txtprice.getText());
+
+        try (Connection conn = com.posapp.dbconnection.dbconn.connect()) {
+            String sql = "INSERT INTO inventory (item_name, quantity, price, image) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, name);
+            stmt.setInt(2, qty);
+            stmt.setDouble(3, price);
+
+            if (selectedImageFile != null) {
+                InputStream is = new FileInputStream(selectedImageFile);
+                stmt.setBinaryStream(4, is, (int) selectedImageFile.length());
+            } else {
+                stmt.setNull(4, Types.BLOB);
+            }
+
+            stmt.executeUpdate();
+            LoadInventoryData();
+            clearFields();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -86,6 +128,19 @@ public class InventoryManagementController {
 
     @FXML
     void clickdelete(ActionEvent event) {
+        InventoryItem selected = tblinventory.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        try (Connection conn = com.posapp.dbconnection.dbconn.connect()) {
+            String sql = "DELETE FROM inventory WHERE item_name = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, selected.getItemname());
+            stmt.executeUpdate();
+            LoadInventoryData();
+            clearFields();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -121,12 +176,128 @@ public class InventoryManagementController {
 
     @FXML
     void clickupdate(ActionEvent event) {
+        InventoryItem selected = tblinventory.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        String name = txtname.getText();
+        int qty = Integer.parseInt(txtquantity.getText());
+        double price = Double.parseDouble(txtprice.getText());
+
+        try (Connection conn = com.posapp.dbconnection.dbconn.connect()) {
+            String sql = "UPDATE inventory SET quantity = ?, price = ?, image = ? WHERE item_name = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, qty);
+            stmt.setDouble(2, price);
+
+            if (selectedImageFile != null) {
+                InputStream is = new FileInputStream(selectedImageFile);
+                stmt.setBinaryStream(3, is, (int) selectedImageFile.length());
+            } else {
+                stmt.setNull(3, Types.BLOB);
+            }
+
+            stmt.setString(4, name);
+            stmt.executeUpdate();
+            LoadInventoryData();
+            clearFields();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     @FXML
     void clickupload(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("select image");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("image Files", "*.png","*.jpg", "*.jpeg"));
+        File file = fileChooser.showOpenDialog(btnupload.getScene().getWindow());
+
+        if(file  !=null){
+            selectedImageFile = file;
+            imageview.setImage(new Image(file.toURI().toString()));
+        }
+
+    }
+    @FXML
+    public void initialize() {
+
+        namecell.setCellValueFactory(new PropertyValueFactory<>("itemname"));
+        quantitycell.setCellValueFactory(new PropertyValueFactory<>("itemquantity"));
+        pricecell.setCellValueFactory(new PropertyValueFactory<>("itemprice"));
+        imagecell.setCellValueFactory(new PropertyValueFactory<>("itemimage"));
+        LoadInventoryData();
+        tblinventory.setOnMouseClicked(event -> {
+            InventoryItem selectedItem = tblinventory.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                txtname.setText(selectedItem.getItemname());
+                txtquantity.setText(String.valueOf(selectedItem.getItemquantity()));
+                txtprice.setText(String.valueOf(selectedItem.getItemprice()));
+                imageview.setImage(selectedItem.getItemimage().getImage());  // Get Image from ImageView
+            }
+        });
 
     }
 
+
+    public class InventoryItem{
+        private String ItemName;
+        private int ItemQuantity;
+        private double ItemPrice;
+        private ImageView ItemImage;
+
+        public InventoryItem(String Itemname, int ItemQuantity, double ItemPrice, byte[] imagedata){
+            this.ItemName=Itemname;
+            this.ItemQuantity = ItemQuantity;
+            this.ItemPrice = ItemPrice;
+            if(imagedata !=null){
+                Image img = new Image(new ByteArrayInputStream(imagedata));
+                this.ItemImage = new ImageView(img);
+                this.ItemImage.setFitWidth(50);
+                this.ItemImage.setFitHeight(50);
+            }else {
+                this.ItemImage = new ImageView();
+            }
+        }
+        public String getItemname(){
+            return ItemName;
+        }
+        public int getItemquantity(){
+            return ItemQuantity;
+        }
+        public double getItemprice(){
+            return ItemPrice;
+        }
+        public ImageView getItemimage(){
+            return ItemImage;
+        }
+    }
+    private void LoadInventoryData(){
+        Inventorylist.clear();
+        try (Connection conn = dbconn.connect()){
+            String sql = "SELECT * FROM inventory";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()){
+                String name = rs.getString("item_name");
+                int quan = rs.getInt("quantity");
+                double price = rs.getDouble("price");
+                byte [] imagebyte = rs.getBytes("image");
+
+                Inventorylist.add(new InventoryItem(name,quan,price,imagebyte));
+            }
+            tblinventory.setItems(Inventorylist);
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    private void clearFields() {
+        txtname.clear();
+        txtquantity.clear();
+        txtprice.clear();
+        imageview.setImage(null);
+        selectedImageFile = null;
+    }
 }
