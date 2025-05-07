@@ -59,7 +59,7 @@ public class InventoryManagementController {
     private Button btnupload;
 
     @FXML
-    private TableColumn<?, ?> imagecell;
+    private TableColumn<InventoryItem, Image> imagecell;
 
     @FXML
     private ImageView imageview;
@@ -97,7 +97,7 @@ public class InventoryManagementController {
         int qty = Integer.parseInt(txtquantity.getText());
         double price = Double.parseDouble(txtprice.getText());
 
-        try (Connection conn = com.posapp.dbconnection.dbconn.connect()) {
+        try (Connection conn = dbconn.connect()) {
             String sql = "INSERT INTO inventory (item_name, quantity, price, image) VALUES (?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -233,7 +233,7 @@ public class InventoryManagementController {
                 txtname.setText(selectedItem.getItemname());
                 txtquantity.setText(String.valueOf(selectedItem.getItemquantity()));
                 txtprice.setText(String.valueOf(selectedItem.getItemprice()));
-                imageview.setImage(selectedItem.getItemimage().getImage());  // Get Image from ImageView
+                imageview.setImage(selectedItem.getItemimage().getImage());
             }
         });
 

@@ -74,7 +74,7 @@ public class AdminDashboardController {
     @FXML
     private ComboBox<String> cmbrole;
 
-  private final ObservableList<UserRow> userList = FXCollections.observableArrayList();
+    private final ObservableList<UserRow> userList = FXCollections.observableArrayList();
     private UserRow selectedUser = null;
 
 
