@@ -6,11 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -178,25 +174,24 @@ public class InventoryManagementController {
     void clickupdate(ActionEvent event) {
         InventoryItem selected = tblinventory.getSelectionModel().getSelectedItem();
         if (selected == null) return;
-
         String name = txtname.getText();
         int qty = Integer.parseInt(txtquantity.getText());
         double price = Double.parseDouble(txtprice.getText());
 
         try (Connection conn = com.posapp.dbconnection.dbconn.connect()) {
-            String sql = "UPDATE inventory SET quantity = ?, price = ?, image = ? WHERE item_name = ?";
+            String sql = "UPDATE inventory SET item_name = ?,quantity = ?, price = ?, image = ? WHERE inventory_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, qty);
-            stmt.setDouble(2, price);
+            stmt.setString(1,name);
+            stmt.setInt(2, qty);
+            stmt.setDouble(3, price);
 
             if (selectedImageFile != null) {
                 InputStream is = new FileInputStream(selectedImageFile);
-                stmt.setBinaryStream(3, is, (int) selectedImageFile.length());
+                stmt.setBinaryStream(4, is, (int) selectedImageFile.length());
             } else {
-                stmt.setNull(3, Types.BLOB);
+                stmt.setNull(4, Types.BLOB);
             }
-
-            stmt.setString(4, name);
+            stmt.setInt(5,selected.getId());
             stmt.executeUpdate();
             LoadInventoryData();
             clearFields();
@@ -225,6 +220,14 @@ public class InventoryManagementController {
         namecell.setCellValueFactory(new PropertyValueFactory<>("itemname"));
         quantitycell.setCellValueFactory(new PropertyValueFactory<>("itemquantity"));
         pricecell.setCellValueFactory(new PropertyValueFactory<>("itemprice"));
+        pricecell.setCellFactory(column -> new TableCell<InventoryItem, Double>() {
+            @Override
+            protected void updateItem(Double price, boolean empty) {
+                super.updateItem(price, empty);
+                setText(empty || price == null ? null : "$" + price);
+            }
+        });
+
         imagecell.setCellValueFactory(new PropertyValueFactory<>("itemimage"));
         LoadInventoryData();
         tblinventory.setOnMouseClicked(event -> {
@@ -241,14 +244,17 @@ public class InventoryManagementController {
 
 
     public class InventoryItem{
+        private int id;
         private String ItemName;
         private int ItemQuantity;
         private double ItemPrice;
         private ImageView ItemImage;
 
-        public InventoryItem(String Itemname, int ItemQuantity, double ItemPrice, byte[] imagedata){
+        public InventoryItem(int id,String Itemname, int ItemQuantity, double ItemPrice, byte[] imagedata){
+            this.id = id;
             this.ItemName=Itemname;
             this.ItemQuantity = ItemQuantity;
+
             this.ItemPrice = ItemPrice;
             if(imagedata !=null){
                 Image img = new Image(new ByteArrayInputStream(imagedata));
@@ -258,6 +264,9 @@ public class InventoryManagementController {
             }else {
                 this.ItemImage = new ImageView();
             }
+        }
+        public int getId(){
+            return id;
         }
         public String getItemname(){
             return ItemName;
@@ -280,12 +289,13 @@ public class InventoryManagementController {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()){
+                int id = rs.getInt("inventory_id");
                 String name = rs.getString("item_name");
                 int quan = rs.getInt("quantity");
                 double price = rs.getDouble("price");
                 byte [] imagebyte = rs.getBytes("image");
 
-                Inventorylist.add(new InventoryItem(name,quan,price,imagebyte));
+                Inventorylist.add(new InventoryItem(id,name,quan,price,imagebyte));
             }
             tblinventory.setItems(Inventorylist);
 
@@ -300,4 +310,6 @@ public class InventoryManagementController {
         imageview.setImage(null);
         selectedImageFile = null;
     }
+
+
 }
