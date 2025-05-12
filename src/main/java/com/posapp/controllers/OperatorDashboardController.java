@@ -30,6 +30,10 @@ public class OperatorDashboardController {
     @FXML private Label lbltotal;
     @FXML private Label lbltax;
     @FXML private Label subtotal;
+    @FXML private Label lblamount;
+    @FXML private TextField txtamount;
+    @FXML private TextField txtdiscount;
+    @FXML private  Label lbldiscount;
     @FXML private ComboBox<String> cmb_payment_method;
 
     public void clickmenu(ActionEvent event) {}
@@ -50,7 +54,24 @@ public class OperatorDashboardController {
     public void clickope(ActionEvent event) {}
     public void clicklogout(ActionEvent event) {}
     public void clickremove(ActionEvent event) {}
-    public void click_pay(ActionEvent event) {}
+    public void click_pay(ActionEvent event) {
+        cmb_payment_method.setItems(FXCollections.observableArrayList("Cash","Card"));
+
+        String combo = cmb_payment_method.getValue();
+        if (combo == null){
+            System.out.println("plese select option");
+        }else if(receiptList.isEmpty()) {
+            System.out.println("receiptlist is empty");
+
+        }else {
+            totalprice();
+            System.out.println("success");
+        }
+
+
+
+
+    }
     public void clickreceipt(ActionEvent event) {}
     public void click_add_custormer(ActionEvent event) {}
 
@@ -58,8 +79,8 @@ public class OperatorDashboardController {
         loadInventory();
         configureProductTable();
         configureReceiptTable();
-        setupcombo();
-        //totalprice();
+        Payment();
+        totalprice();
     }
 
 
@@ -73,6 +94,26 @@ public class OperatorDashboardController {
     @FXML private TableColumn<Product, Void> action;
 
     private final ObservableList<Product> productList = FXCollections.observableArrayList();
+
+    public void click_add_discount(ActionEvent event) {
+//        String inputdiscount = txtdiscount.getText();
+//        double dis =0.0;
+//        try{
+//            dis  =Double.parseDouble(inputdiscount);
+//        }catch (NumberFormatException e){
+//            System.out.println("invalid discount" + inputdiscount);
+//        }
+//       lbldiscount.setText(String.format(String.valueOf(dis)));
+
+
+
+
+    }
+
+    public void click_remove_discount(ActionEvent event) {
+        txtdiscount.clear();
+        lbldiscount.setText("0.0");
+    }
 
     public static class Product {
         private final int id;
@@ -189,6 +230,27 @@ public class OperatorDashboardController {
                 setText(empty ||price == null ? null : "$" + price);
             }
         });
+        re_action.setCellFactory(column -> new TableCell<>(){
+            private final Button removebutton = new Button("remove");
+            {
+                removebutton.setOnAction(event -> {
+                    ReceiptItem item = getTableView().getItems().get(getIndex());
+                    receiptList.remove(item);
+                    totalprice();
+
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(removebutton);
+                }
+            }
+
+        });
 
 
 
@@ -211,15 +273,46 @@ public class OperatorDashboardController {
         public double getPrice() { return price; }
     }
 
-    private void setupcombo(){
-        cmb_payment_method.setItems(FXCollections.observableArrayList("Cash","Card"));
+    private void Payment(){
+//        cmb_payment_method.setItems(FXCollections.observableArrayList("Cash","Card"));
+//        String combo = cmb_payment_method.getValue();
+//        String amount = txtamount.getText();
+//
+//        cmb_payment_method.setOnAction(event -> {
+//            if(cmb_payment_method.getValue() == "Card"){
+//                txtamount.setDisable(true);
+//                lblamount.setDisable(true);
+//
+//            }else {
+//                txtamount.setDisable(false);
+//                lblamount.setDisable(false);
+//            }
+//        });
     }
 
     public void totalprice(){
+        cmb_payment_method.setItems(FXCollections.observableArrayList("Cash","Card"));
+        String combo = cmb_payment_method.getValue();
+        String amount = txtamount.getText();
+
+        cmb_payment_method.setOnAction(event -> {
+            if(cmb_payment_method.getValue() == "Card"){
+                txtamount.setDisable(true);
+                lblamount.setDisable(true);
+
+            }else {
+                txtamount.setDisable(false);
+                lblamount.setDisable(false);
+            }
+        });
+
+
         double total =0;
         double taxrate = 0.15;
         double tax;
         double sub_total;
+
+
 
         for (ReceiptItem item : receiptList){
             total +=item.getPrice();
@@ -230,6 +323,27 @@ public class OperatorDashboardController {
         sub_total = tax + total;
         subtotal.setText(String.format("$%.2f ", sub_total));
         System.out.println(total);
+
+
+        txtdiscount.setOnAction(event -> {
+            String inputdiscount = txtdiscount.getText();
+            double dis =0.0;
+            double discount =0.0;
+            double finalvalue;
+            try{
+                dis  =Double.parseDouble(inputdiscount);
+            }catch (NumberFormatException e){
+                System.out.println("invalid discount" + inputdiscount);
+            }
+            discount = sub_total * dis/100;
+            lbldiscount.setText(String.format(String.valueOf("$%.2f"), discount));
+            finalvalue = sub_total -  discount;
+            subtotal.setText(String.format(String.valueOf("$%.2f"),finalvalue));
+
+
+        });
+
+
 
     }
 
