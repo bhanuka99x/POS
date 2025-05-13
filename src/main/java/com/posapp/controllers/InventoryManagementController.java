@@ -6,17 +6,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import javax.swing.*;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.*;
 
 public class InventoryManagementController {
@@ -151,7 +151,15 @@ public class InventoryManagementController {
     }
 
     @FXML
-    void clickmenu(ActionEvent event) {
+    void clickmenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
 
     }
 

@@ -1,7 +1,7 @@
 package com.posapp.controllers;
 
 import com.posapp.dbconnection.dbconn;
-
+import com.posapp.receipt.ReceiptGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,75 +17,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Optional;
 
 public class OperatorDashboardController {
 
-    @FXML private Button btncustomers;
-    @FXML private Button btninventory;
-    @FXML private Button btnlogout;
-    @FXML private Button btnmenu;
-    @FXML private Button btnorders;
-    @FXML private Button btnreports;
-    @FXML private Label txtlbl;
-    @FXML private Label lbltotal;
-    @FXML private Label lbltax;
-    @FXML private Label subtotal;
-    @FXML private Label lblamount;
-    @FXML private TextField txtamount;
-    @FXML private TextField txtdiscount;
-    @FXML private  Label lbldiscount;
+    // FXML fields
+    @FXML private Button btncustomers, btninventory, btnlogout, btnmenu, btnorders, btnreports;
+    @FXML private Label txtlbl, lbltotal, lbltax, subtotal, lblamount, lbldiscount;
+    @FXML private TextField txtamount, txtdiscount;
     @FXML private ComboBox<String> cmb_payment_method;
 
-    public void clickmenu(ActionEvent event) {}
-    public void clickinventory(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_inventory.fxml"));
-        Scene scene = new Scene(loader.load());
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.show();
-        Stage current = (Stage) txtlbl.getScene().getWindow();
-        current.close();
-
-    }
-    public void clickcustomers(ActionEvent event) {}
-    public void clickorders(ActionEvent event) {}
-    public void clickreports(ActionEvent event) {}
-    public void clickope(ActionEvent event) {}
-    public void clicklogout(ActionEvent event) {}
-    public void clickremove(ActionEvent event) {}
-    public void click_pay(ActionEvent event) {
-        cmb_payment_method.setItems(FXCollections.observableArrayList("Cash","Card"));
-
-        String combo = cmb_payment_method.getValue();
-        if (combo == null){
-            System.out.println("plese select option");
-        }else if(receiptList.isEmpty()) {
-            System.out.println("receiptlist is empty");
-
-        }else {
-            totalprice();
-            System.out.println("success");
-        }
-
-
-
-
-    }
-    public void clickreceipt(ActionEvent event) {}
-    public void click_add_custormer(ActionEvent event) {}
-
-    public void initialize() {
-        loadInventory();
-        configureProductTable();
-        configureReceiptTable();
-        Payment();
-        totalprice();
-    }
-
-
-
-  //product table
+    // Product Table
     @FXML private TableView<Product> tbl_product_display;
     @FXML private TableColumn<Product, String> product_name;
     @FXML private TableColumn<Product, Double> price;
@@ -95,25 +39,161 @@ public class OperatorDashboardController {
 
     private final ObservableList<Product> productList = FXCollections.observableArrayList();
 
+    // Receipt Table
+    @FXML private TableView<ReceiptItem> tbl_receipt;
+    @FXML private TableColumn<ReceiptItem, String> receipt_product_name;
+    @FXML private TableColumn<ReceiptItem, Integer> receipt_quantity;
+    @FXML private TableColumn<ReceiptItem, Double> receipt_price;
+    @FXML private TableColumn<ReceiptItem, Void> re_action;
+
+    private final ObservableList<ReceiptItem> receiptList = FXCollections.observableArrayList();
+
+    private double calculatedSubTotal = 0.0;
+    private double calculatedTax = 0.0;
+    private double calculatedDiscount = 0.0;
+    private double calculatedTotal = 0.0;
+
+    public void initialize() {
+        cmb_payment_method.setItems(FXCollections.observableArrayList("Cash", "Card"));
+        loadInventory();
+        configureProductTable();
+        configureReceiptTable();
+        configurePaymentLogic();
+
+        txtdiscount.setOnAction(e -> totalprice());
+
+        txtdiscount.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case BACK_SPACE:
+                    if (txtdiscount.getText().length() <= 1) {
+                        txtdiscount.clear();
+                        calculatedDiscount = 0.0;
+                        totalprice();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+
+    }
+
+    private void configurePaymentLogic() {
+        cmb_payment_method.setOnAction(event -> {
+            if ("Card".equals(cmb_payment_method.getValue())) {
+                txtamount.setDisable(true);
+                lblamount.setDisable(true);
+            } else {
+                txtamount.setDisable(false);
+                lblamount.setDisable(false);
+            }
+        });
+    }
+
+    public void totalprice(){
+        double total = receiptList.stream().mapToDouble(ReceiptItem::getPrice).sum();
+        double taxRate = 0.15;
+        calculatedTax = total * taxRate;
+        calculatedSubTotal = total + calculatedTax;
+
+        lbltotal.setText(String.format("$%.2f", total));
+        lbltax.setText(String.format("$%.2f", calculatedTax));
+        subtotal.setText(String.format("$%.2f", calculatedSubTotal));
+
+        try {
+            double discountPercent = Double.parseDouble(txtdiscount.getText());
+            if (discountPercent < 0 || discountPercent > 100) throw new NumberFormatException();
+            calculatedDiscount = calculatedSubTotal * discountPercent / 100;
+        } catch (NumberFormatException e) {
+            calculatedDiscount = 0.0;
+        }
+
+        lbldiscount.setText(String.format("$%.2f", calculatedDiscount));
+        calculatedTotal = calculatedSubTotal - calculatedDiscount;
+        subtotal.setText(String.format("$%.2f", calculatedTotal));
+    }
+
+    public void click_pay(ActionEvent event) {
+        String paymentOption = cmb_payment_method.getValue();
+        if (paymentOption == null) {
+            showAlert("Payment Error", "Please select a payment method.");
+            return;
+        }
+
+        if (receiptList.isEmpty()) {
+            showAlert("Receipt Error", "Receipt is empty.");
+            return;
+        }
+
+        totalprice();
+
+        try (Connection conn = dbconn.connect()) {
+            String sql = """
+        INSERT INTO payments (payment_option, sub_total, tax, discount, total, payment_date, payment_time)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """;
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, paymentOption);
+            stmt.setDouble(2, calculatedSubTotal);
+            stmt.setDouble(3, calculatedTax);
+            stmt.setDouble(4, calculatedDiscount);
+            stmt.setDouble(5, calculatedTotal);
+            stmt.setDate(6, Date.valueOf(LocalDate.now()));
+            stmt.setTime(7, Time.valueOf(LocalTime.now()));
+
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
+                // ✅ Ask if user wants to generate receipt
+                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                confirm.setTitle("Generate Receipt");
+                confirm.setHeaderText("Do you want to generate a receipt?");
+                confirm.setContentText("Click OK to generate the receipt, or Cancel to skip.");
+
+                Optional<ButtonType> result = confirm.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    ReceiptGenerator.generateReceipt(
+                            receiptList,
+                            calculatedSubTotal,
+                            calculatedTax,
+                            calculatedDiscount,
+                            calculatedTotal,
+                            paymentOption
+                    );
+                }
+
+                showAlert("Success", "Payment recorded successfully!");
+                receiptList.clear();
+                totalprice();
+                txtdiscount.clear();
+                cmb_payment_method.getSelectionModel().clearSelection();
+            } else {
+                showAlert("Database Error", "Failed to record payment.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Exception", "Error inserting payment: " + e.getMessage());
+        }
+    }
+
+
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
     public void click_add_discount(ActionEvent event) {
-//        String inputdiscount = txtdiscount.getText();
-//        double dis =0.0;
-//        try{
-//            dis  =Double.parseDouble(inputdiscount);
-//        }catch (NumberFormatException e){
-//            System.out.println("invalid discount" + inputdiscount);
-//        }
-//       lbldiscount.setText(String.format(String.valueOf(dis)));
-
-
-
-
     }
 
     public void click_remove_discount(ActionEvent event) {
-        txtdiscount.clear();
-        lbldiscount.setText("0.0");
     }
+
+    // ------------ Product & Receipt Logic (No Changes) ------------
 
     public static class Product {
         private final int id;
@@ -141,122 +221,6 @@ public class OperatorDashboardController {
         public Spinner<Integer> getSpinner() { return spinner; }
     }
 
-    private void configureProductTable() {
-        product_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        price.setCellFactory(column -> new TableCell<Product, Double>(){
-            @Override
-            protected void updateItem(Double price,boolean empty){
-                super.updateItem(price,empty);
-                setText(empty || price == null ? null : "$" + price );
-            }
-        });
-
-        product_image.setCellFactory(col -> new TableCell<>() {
-            private final ImageView imageView = new ImageView();
-
-            @Override
-            protected void updateItem(Image img, boolean empty) {
-                super.updateItem(img, empty);
-                if (empty || img == null) {
-                    setGraphic(null);
-                } else {
-                    imageView.setImage(img);
-                    imageView.setFitHeight(50);
-                    imageView.setFitWidth(50);
-                    setGraphic(imageView);
-                }
-            }
-        });
-        product_image.setCellValueFactory(new PropertyValueFactory<>("image"));
-
-        add_quantity.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    Product product = getTableView().getItems().get(getIndex());
-                    setGraphic(product.getSpinner());
-                }
-            }
-        });
-
-        action.setCellFactory(col -> new TableCell<>() {
-            private final Button addButton = new Button("Add");
-
-            {
-                addButton.setOnAction(e -> {
-                    Product product = getTableView().getItems().get(getIndex());
-                    int qty = product.getSpinner().getValue();
-                    double total = qty * product.getPrice();
-                    ReceiptItem item = new ReceiptItem(product.getName(), qty, total);
-                    receiptList.add(item);
-                    totalprice();
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(addButton);
-                }
-            }
-        });
-    }
-
- // receipt table
-
-    @FXML private TableView<ReceiptItem> tbl_receipt;
-    @FXML private TableColumn<ReceiptItem, String> receipt_product_name;
-    @FXML private TableColumn<ReceiptItem, Integer> receipt_quantity;
-    @FXML private TableColumn<ReceiptItem, Double> receipt_price;
-    @FXML private TableColumn<ReceiptItem, Void >re_action;
-
-    private final ObservableList<ReceiptItem> receiptList = FXCollections.observableArrayList();
-
-    private void configureReceiptTable() {
-        receipt_product_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        receipt_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        receipt_price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        receipt_price.setCellFactory(column ->new TableCell<ReceiptItem,Double>(){
-            @Override
-            protected void updateItem(Double price,boolean empty){
-                super.updateItem(price,empty);
-                setText(empty ||price == null ? null : "$" + price);
-            }
-        });
-        re_action.setCellFactory(column -> new TableCell<>(){
-            private final Button removebutton = new Button("remove");
-            {
-                removebutton.setOnAction(event -> {
-                    ReceiptItem item = getTableView().getItems().get(getIndex());
-                    receiptList.remove(item);
-                    totalprice();
-
-                });
-            }
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(removebutton);
-                }
-            }
-
-        });
-
-
-
-        tbl_receipt.setItems(receiptList);
-    }
-
     public static class ReceiptItem {
         private final String productName;
         private final int quantity;
@@ -273,80 +237,89 @@ public class OperatorDashboardController {
         public double getPrice() { return price; }
     }
 
-    private void Payment(){
-//        cmb_payment_method.setItems(FXCollections.observableArrayList("Cash","Card"));
-//        String combo = cmb_payment_method.getValue();
-//        String amount = txtamount.getText();
-//
-//        cmb_payment_method.setOnAction(event -> {
-//            if(cmb_payment_method.getValue() == "Card"){
-//                txtamount.setDisable(true);
-//                lblamount.setDisable(true);
-//
-//            }else {
-//                txtamount.setDisable(false);
-//                lblamount.setDisable(false);
-//            }
-//        });
-    }
-
-    public void totalprice(){
-        cmb_payment_method.setItems(FXCollections.observableArrayList("Cash","Card"));
-        String combo = cmb_payment_method.getValue();
-        String amount = txtamount.getText();
-
-        cmb_payment_method.setOnAction(event -> {
-            if(cmb_payment_method.getValue() == "Card"){
-                txtamount.setDisable(true);
-                lblamount.setDisable(true);
-
-            }else {
-                txtamount.setDisable(false);
-                lblamount.setDisable(false);
+    private void configureProductTable() {
+        product_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        price.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(Double price, boolean empty) {
+                super.updateItem(price, empty);
+                setText(empty || price == null ? null : "$" + price);
             }
         });
 
-
-        double total =0;
-        double taxrate = 0.15;
-        double tax;
-        double sub_total;
-
-
-
-        for (ReceiptItem item : receiptList){
-            total +=item.getPrice();
-        }
-        lbltotal.setText(String.format("$%.2f " , total));
-        tax = taxrate * total;
-        lbltax.setText(String.format("$%.2f " , tax));
-        sub_total = tax + total;
-        subtotal.setText(String.format("$%.2f ", sub_total));
-        System.out.println(total);
-
-
-        txtdiscount.setOnAction(event -> {
-            String inputdiscount = txtdiscount.getText();
-            double dis =0.0;
-            double discount =0.0;
-            double finalvalue;
-            try{
-                dis  =Double.parseDouble(inputdiscount);
-            }catch (NumberFormatException e){
-                System.out.println("invalid discount" + inputdiscount);
+        product_image.setCellFactory(col -> new TableCell<>() {
+            private final ImageView imageView = new ImageView();
+            @Override protected void updateItem(Image img, boolean empty) {
+                super.updateItem(img, empty);
+                if (empty || img == null) setGraphic(null);
+                else {
+                    imageView.setImage(img);
+                    imageView.setFitHeight(50);
+                    imageView.setFitWidth(50);
+                    setGraphic(imageView);
+                }
             }
-            discount = sub_total * dis/100;
-            lbldiscount.setText(String.format(String.valueOf("$%.2f"), discount));
-            finalvalue = sub_total -  discount;
-            subtotal.setText(String.format(String.valueOf("$%.2f"),finalvalue));
+        });
+        product_image.setCellValueFactory(new PropertyValueFactory<>("image"));
 
-
+        add_quantity.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) setGraphic(null);
+                else setGraphic(getTableView().getItems().get(getIndex()).getSpinner());
+            }
         });
 
+        action.setCellFactory(col -> new TableCell<>() {
+            private final Button addButton = new Button("Add");
+            {
+                addButton.setOnAction(e -> {
+                    Product p = getTableView().getItems().get(getIndex());
+                    int qty = p.getSpinner().getValue();
+                    double total = qty * p.getPrice();
+                    receiptList.add(new ReceiptItem(p.getName(), qty, total));
+                    totalprice();
+                });
+            }
 
+            @Override protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : addButton);
+            }
+        });
 
+        tbl_product_display.setItems(productList);
     }
 
+    private void configureReceiptTable() {
+        receipt_product_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        receipt_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        receipt_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        receipt_price.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(Double price, boolean empty) {
+                super.updateItem(price, empty);
+                setText(empty || price == null ? null : "$" + price);
+            }
+        });
+
+        re_action.setCellFactory(col -> new TableCell<>() {
+            private final Button removeButton = new Button("Remove");
+            {
+                removeButton.setOnAction(e -> {
+                    ReceiptItem item = getTableView().getItems().get(getIndex());
+                    receiptList.remove(item);
+                    totalprice();
+                });
+            }
+
+            @Override protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : removeButton);
+            }
+        });
+
+        tbl_receipt.setItems(receiptList);
+    }
 
     private void loadInventory() {
         try (Connection conn = dbconn.connect()) {
@@ -356,11 +329,7 @@ public class OperatorDashboardController {
 
             while (rs.next()) {
                 InputStream is = rs.getBinaryStream("image");
-                Image img = null;
-                if (is != null) {
-                    img = new Image(is);
-                }
-
+                Image img = is != null ? new Image(is) : null;
                 Product product = new Product(
                         rs.getInt("inventory_id"),
                         rs.getString("item_name"),
@@ -370,18 +339,14 @@ public class OperatorDashboardController {
                 );
                 productList.add(product);
             }
-            tbl_product_display.setItems(productList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-
     private String userRole;
-
     public void setUserRole(String role) {
         this.userRole = role;
-        System.out.println("User role in dashboard: " + userRole);
         configureDashboard();
     }
 
@@ -402,8 +367,28 @@ public class OperatorDashboardController {
             btnreports.setVisible(false);
             btnlogout.setVisible(true);
             txtlbl.setText(userRole);
-        } else {
-            System.out.println("Invalid role detected: " + userRole);
         }
     }
+
+
+    public void clickmenu(ActionEvent event) {
+
+    }
+    public void clickinventory(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_inventory.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    public void clickcustomers(ActionEvent event) {}
+    public void clickorders(ActionEvent event) {}
+    public void clickreports(ActionEvent event) {}
+    public void clicklogout(ActionEvent event) {}
+    public void clickreceipt(ActionEvent event) {}
+    public void clickremove(ActionEvent event) {}
+    public void clickope(ActionEvent event) {}
 }
