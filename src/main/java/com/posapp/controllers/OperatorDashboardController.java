@@ -130,10 +130,11 @@ public class OperatorDashboardController {
         try (Connection conn = dbconn.connect()) {
             String sql = """
         INSERT INTO payments (payment_option, sub_total, tax, discount, total, payment_date, payment_time)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?,?)
         """;
 
             PreparedStatement stmt = conn.prepareStatement(sql);
+
             stmt.setString(1, paymentOption);
             stmt.setDouble(2, calculatedSubTotal);
             stmt.setDouble(3, calculatedTax);

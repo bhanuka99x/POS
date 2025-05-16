@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -32,9 +31,8 @@
                   <Button fx:id="btnlogout" mnemonicParsing="false" onAction="#clicklogout" text="Log out" />
                </children>
             </VBox>
-            <TableView fx:id="payment_record" layoutX="216.0" layoutY="128.0" prefHeight="630.0" prefWidth="1140.0" tableMenuButtonVisible="true" AnchorPane.rightAnchor="44.0">
+            <TableView fx:id="payment_record" layoutX="200.0" layoutY="22.0" prefHeight="760.0" prefWidth="1166.0" AnchorPane.rightAnchor="34.0">
               <columns>
-                  <TableColumn fx:id="cell_payment_id" prefWidth="103.0" text="ID" />
                 <TableColumn fx:id="cell_payment_option" prefWidth="103.0" text="Payment option" />
                 <TableColumn fx:id="cell_payment_total" prefWidth="97.0" text="sub total" />
                   <TableColumn fx:id="cell_tax" prefWidth="97.0" text="tax" />
@@ -48,8 +46,6 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <TextField fx:id="txtsearch" layoutX="221.0" layoutY="68.0" promptText="Search" />
-            <Button fx:id="btnsearch" layoutX="389.0" layoutY="68.0" mnemonicParsing="false" text="Search" />
          </children></AnchorPane>
    </children>
 </StackPane>
