@@ -129,7 +129,7 @@ public class OperatorDashboardController {
 
         try (Connection conn = dbconn.connect()) {
             String sql = """
-        INSERT INTO payments (payment_option, sub_total, tax, discount, total, payment_date, payment_time)
+        INSERT INTO payments (payment_option, sub_total, tax, discount, total, payment_date, payment_time,taken_items)
         VALUES (?, ?, ?, ?, ?, ?, ?,?)
         """;
 
@@ -142,10 +142,10 @@ public class OperatorDashboardController {
             stmt.setDouble(5, calculatedTotal);
             stmt.setDate(6, Date.valueOf(LocalDate.now()));
             stmt.setTime(7, Time.valueOf(LocalTime.now()));
+            stmt.setString(8, receiptList.toString());
 
             int rows = stmt.executeUpdate();
             if (rows > 0) {
-                // ✅ Ask if user wants to generate receipt
                 Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
                 confirm.setTitle("Generate Receipt");
                 confirm.setHeaderText("Do you want to generate a receipt?");
@@ -236,6 +236,11 @@ public class OperatorDashboardController {
         public String getProductName() { return productName; }
         public int getQuantity() { return quantity; }
         public double getPrice() { return price; }
+
+        @Override
+        public String toString() {
+            return String.format("'%s qty=%d'", productName, quantity);
+        }
     }
 
     private void configureProductTable() {
@@ -386,7 +391,16 @@ public class OperatorDashboardController {
         currentstage.close();
     }
     public void clickcustomers(ActionEvent event) {}
-    public void clickorders(ActionEvent event) {}
+    public void clickorders(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_orders.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
     public void clickreports(ActionEvent event) {}
     public void clicklogout(ActionEvent event) {}
     public void clickreceipt(ActionEvent event) {}

@@ -49,7 +49,7 @@
                </columnResizePolicy>
             </TableView>
             <TextField fx:id="txtsearch" layoutX="221.0" layoutY="68.0" promptText="Search" />
-            <Button fx:id="btnsearch" layoutX="389.0" layoutY="68.0" mnemonicParsing="false" text="Search" />
+            <Button fx:id="btnsearch" layoutX="389.0" layoutY="68.0" mnemonicParsing="false" onAction="#clicksearch" text="Search" />
          </children></AnchorPane>
    </children>
 </StackPane>

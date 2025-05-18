@@ -57,7 +57,7 @@
                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                   </columnResizePolicy>
                </TableView>
-               <Label layoutX="225.0" layoutY="523.0" prefHeight="30.0" prefWidth="69.0" text="Tolal =" />
+               <Label layoutX="210.0" layoutY="523.0" prefHeight="30.0" prefWidth="69.0" text="Sub tolal =" />
                <Label fx:id="lblamount" layoutX="13.0" layoutY="406.0" text="Amount" />
                <Label fx:id="lbltotal" layoutX="273.0" layoutY="530.0" text="0.0$" />
                <TextField fx:id="txtamount" layoutX="66.0" layoutY="402.0" prefHeight="30.0" prefWidth="149.0" promptText="Enter amount" />
@@ -67,13 +67,13 @@
                <Button fx:id="btnremove" layoutX="152.0" layoutY="704.0" mnemonicParsing="false" onAction="#clickremove" prefHeight="30.0" prefWidth="98.0" text="Remove" />
                <Button fx:id="btngenate_receipt" layoutX="265.0" layoutY="703.0" mnemonicParsing="false" onAction="#clickreceipt" prefHeight="30.0" prefWidth="140.0" text="Receipt " />
                <ComboBox fx:id="cmb_payment_method" layoutX="14.0" layoutY="359.0" prefWidth="150.0" promptText="Payment Option" />
-               <Label layoutX="214.0" layoutY="613.0" prefHeight="17.0" prefWidth="63.0" text="Sub total = " />
+               <Label layoutX="214.0" layoutY="613.0" prefHeight="17.0" prefWidth="63.0" text=" Total = " />
                <Label fx:id="subtotal" layoutX="288.0" layoutY="612.0" text="0.0$" />
                <Label layoutX="12.0" layoutY="456.0" text="Discount" />
                <TextField fx:id="txtdiscount" layoutX="66.0" layoutY="449.0" prefHeight="30.0" prefWidth="149.0" promptText="Enter discount" />
                <Button fx:id="add_discount" layoutX="225.0" layoutY="453.0" mnemonicParsing="false" onAction="#click_add_discount" prefHeight="25.0" prefWidth="57.0" text="add" visible="false" />
-               <Label layoutX="13.0" layoutY="499.0" text="Discount = " />
-               <Label fx:id="lbldiscount" layoutX="92.0" layoutY="500.0" text="0.0" />
+               <Label layoutX="204.0" layoutY="585.0" text="Discount = " />
+               <Label fx:id="lbldiscount" layoutX="283.0" layoutY="586.0" text="0.0" />
                <Button fx:id="remove_discount" layoutX="286.0" layoutY="453.0" mnemonicParsing="false" onAction="#click_remove_discount" prefHeight="25.0" prefWidth="57.0" text="remove" visible="false" />
                <Label fx:id="lblre_balance" layoutX="225.0" layoutY="408.0" prefHeight="17.0" prefWidth="74.0" text="re . balance =" />
                <Label fx:id="lbl_re_balance" layoutX="309.0" layoutY="410.0" text="0.0" />
