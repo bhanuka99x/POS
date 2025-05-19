@@ -377,8 +377,15 @@ public class OperatorDashboardController {
     }
 
 
-    public void clickmenu(ActionEvent event) {
-
+    public void clickmenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
     }
     public void clickinventory(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_inventory.fxml"));
@@ -390,7 +397,16 @@ public class OperatorDashboardController {
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
-    public void clickcustomers(ActionEvent event) {}
+    public void clickcustomers(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_customers.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
     public void clickorders(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_orders.fxml"));
         Stage stage = new Stage();
@@ -401,9 +417,28 @@ public class OperatorDashboardController {
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
-    public void clickreports(ActionEvent event) {}
+    public void clickreports(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_report.fxml.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    public void clickope(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_operator.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
     public void clicklogout(ActionEvent event) {}
     public void clickreceipt(ActionEvent event) {}
     public void clickremove(ActionEvent event) {}
-    public void clickope(ActionEvent event) {}
+
 }

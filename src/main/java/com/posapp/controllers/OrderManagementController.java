@@ -137,13 +137,76 @@ public class OrderManagementController {
 
 
 
-    @FXML void clickmenu(ActionEvent event) {}
-    @FXML void clickinventory(ActionEvent event) {}
-    @FXML void clickcustomers(ActionEvent event) {}
-    @FXML void clickorders(ActionEvent event) throws IOException {}
-    @FXML void clickreports(ActionEvent event) {}
-    @FXML void clickope(ActionEvent event) {}
-    @FXML void clicklogout(ActionEvent event) {}
+    @FXML
+    public void clickmenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    public void clickinventory(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_inventory.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    public void clickcustomers(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_customers.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    public void clickorders(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_orders.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    public void clickreports(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_report.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    public void clickope(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_operator.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    void clicklogout(ActionEvent event) {
+
+    }
     @FXML void clicksearch(ActionEvent event) {
         String input = txtsearch.getText();
         if (input == null || input.trim().isEmpty()) {
@@ -151,7 +214,6 @@ public class OrderManagementController {
         }
         try {
             int searchId = Integer.parseInt(input.trim());
-
             for (PaymentItem item : PaymentList) {
                 if (item.getId() == searchId) {
                     payment_record.getSelectionModel().select(item);
@@ -159,10 +221,8 @@ public class OrderManagementController {
                     break;
                 }
             }
-
         } catch (NumberFormatException e) {
             System.out.println("Invalid ID format.");
         }
     }
-
 }

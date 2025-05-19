@@ -78,47 +78,6 @@ public class AdminDashboardController {
     private UserRow selectedUser = null;
 
 
-    @FXML
-    void clickcustomers(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clickinventory(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clicklogout(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clickmenu(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
-        Scene scene = new Scene(loader.load());
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.show();
-        Stage curruntstage = (Stage)txtlbl.getScene().getWindow();
-        curruntstage.close();
-    }
-
-    @FXML
-    void clickope(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clickorders(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clickreports(ActionEvent event) {
-
-    }
 
     @FXML
     public void initialize(){
@@ -242,5 +201,76 @@ public class AdminDashboardController {
         public String getRole(){
             return role;
         }
+    }
+
+    @FXML
+    public void clickmenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    public void clickinventory(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_inventory.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    public void clickcustomers(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_customers.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    public void clickorders(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_orders.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    public void clickreports(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_report.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    public void clickope(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_operator.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.show();
+        Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+        currentstage.close();
+    }
+    @FXML
+    void clicklogout(ActionEvent event) {
+
     }
 }
