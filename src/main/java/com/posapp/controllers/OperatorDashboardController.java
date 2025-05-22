@@ -146,6 +146,19 @@ public class OperatorDashboardController {
 
             int rows = stmt.executeUpdate();
             if (rows > 0) {
+
+                for (ReceiptItem item : receiptList) {
+                    String updateInventorySql = "UPDATE inventory SET quantity = quantity - ? WHERE item_name = ?";
+                    try (PreparedStatement updateStmt = conn.prepareStatement(updateInventorySql)) {
+                        updateStmt.setInt(1, item.getQuantity());
+                        updateStmt.setString(2, item.getProductName());
+                        updateStmt.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        showAlert("Inventory Error", "Error updating inventory for " + item.getProductName());
+                    }
+                }
+
                 Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
                 confirm.setTitle("Generate Receipt");
                 confirm.setHeaderText("Do you want to generate a receipt?");
@@ -418,7 +431,7 @@ public class OperatorDashboardController {
         currentstage.close();
     }
     public void clickreports(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_report.fxml.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_report.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
