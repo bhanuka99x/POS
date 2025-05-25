@@ -27,19 +27,22 @@
          <cursor>
             <Cursor fx:constant="CLOSED_HAND" />
          </cursor>
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
       </Button>
-      <ImageView fitHeight="71.0" fitWidth="64.0" layoutX="134.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="331.4414405822754" AnchorPane.leftAnchor="134.0" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="37.0">
+      <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="136.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" styleClass="custom-loginimage" AnchorPane.bottomAnchor="341.3513526916504" AnchorPane.leftAnchor="136.0" AnchorPane.rightAnchor="133.0" AnchorPane.topAnchor="31.0">
          <image>
             <Image url="@../assets/logo/pos.me.crop3.png" />
          </image>
       </ImageView>
       <Label layoutX="129.0" layoutY="388.0" prefHeight="26.0" prefWidth="72.0" text="version 1.0" />
-      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="55.0" layoutY="140.0" pickOnBounds="true">
+      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="55.0" layoutY="144.0" pickOnBounds="true">
          <image>
             <Image url="@../assets/userpass/user.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="55.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="55.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/userpass/padlock.png" />
          </image>

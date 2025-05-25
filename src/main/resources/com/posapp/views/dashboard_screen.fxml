@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -12,30 +13,41 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.OperatorDashboardController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" styleClass="custom-mainback" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.OperatorDashboardController">
    <children>
       <AnchorPane prefHeight="629.0" prefWidth="600.0">
-         <VBox alignment="CENTER" prefHeight="600.0" prefWidth="164.0" spacing="25.0" style="-fx-background-color: gray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <VBox alignment="CENTER" layoutX="-1.0" prefHeight="600.0" prefWidth="165.0" spacing="25.0" styleClass="custom-pannel" stylesheets="@../css/Application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0">
             <children>
-               <ImageView fitHeight="57.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../assets/logo/pos.me.crop3.png" />
-                  </image>
-               </ImageView>
-               <Label fx:id="txtlbl" prefHeight="29.0" prefWidth="122.0" text="Label" />
-               <Button fx:id="btnmenu" mnemonicParsing="false" onAction="#clickmenu" prefHeight="40.0" prefWidth="130.0" text="Menu" />
-               <Button fx:id="btninventory" mnemonicParsing="false" onAction="#clickinventory" prefHeight="40.0" prefWidth="130.0" text="Inventory" />
-               <Button fx:id="btncustomers" mnemonicParsing="false" onAction="#clickcustomers" prefHeight="40.0" prefWidth="130.0" text="Customers" />
-               <Button fx:id="btnorders" mnemonicParsing="false" onAction="#clickorders" prefHeight="40.0" prefWidth="130.0" text="Orders" />
-               <Button fx:id="btnreports" mnemonicParsing="false" onAction="#clickreports" prefHeight="40.0" prefWidth="130.0" text="Reports" />
-               <Button fx:id="btnope" mnemonicParsing="false" onAction="#clickope" prefHeight="40.0" prefWidth="130.0" text="Operators" />
-               <Button fx:id="btnlogout" mnemonicParsing="false" onAction="#clicklogout" text="Log out" />
+               <Button fx:id="btnmenu" mnemonicParsing="false" onAction="#clickmenu" prefHeight="40.0" prefWidth="130.0" styleClass="custom-btndash" text="Menu">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="btninventory" mnemonicParsing="false" onAction="#clickinventory" prefHeight="40.0" prefWidth="130.0" styleClass="custom-btndash" text="Inventory">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="btncustomers" mnemonicParsing="false" onAction="#clickcustomers" prefHeight="40.0" prefWidth="130.0" styleClass="custom-btndash" text="Customers">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="btnorders" mnemonicParsing="false" onAction="#clickorders" prefHeight="40.0" prefWidth="130.0" styleClass="custom-btndash" text="Orders">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="btnreports" mnemonicParsing="false" onAction="#clickreports" prefHeight="40.0" prefWidth="130.0" styleClass="custom-btndash" text="Reports">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="btnope" mnemonicParsing="false" onAction="#clickope" prefHeight="40.0" prefWidth="130.0" styleClass="custom-btndash" text="Operators">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
             </children>
          </VBox>
-         <TableView fx:id="tbl_product_display" layoutX="176.0" layoutY="28.0" maxHeight="759.0" maxWidth="700.0" minHeight="559.0" minWidth="540.0" prefHeight="751.0" prefWidth="687.0" AnchorPane.bottomAnchor="21.0" AnchorPane.topAnchor="28.0">
+         <TableView fx:id="tbl_product_display" layoutX="162.0" maxHeight="801.0" maxWidth="802.0" minHeight="559.0" minWidth="540.0" prefHeight="801.0" prefWidth="797.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="162.0" AnchorPane.rightAnchor="441.0" AnchorPane.topAnchor="0.0">
            <columns>
-             <TableColumn fx:id="product_name" prefWidth="134.0" text="Product Name" />
              <TableColumn fx:id="product_image" minWidth="0.0" prefWidth="139.0" text="Product Image" />
+             <TableColumn fx:id="product_name" prefWidth="134.0" text="Product Name" />
                <TableColumn fx:id="add_quantity" minWidth="0.0" prefWidth="81.66665649414062" text="Add Quantity" />
                <TableColumn fx:id="price" minWidth="0.0" prefWidth="89.33334350585938" text="Price" />
                <TableColumn fx:id="action" minWidth="0.0" prefWidth="68.3333740234375" text="Action" />
@@ -44,9 +56,22 @@
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
          </TableView>
-         <AnchorPane layoutX="885.0" layoutY="17.0" prefHeight="759.0" prefWidth="497.0" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="18.0">
+         <Button fx:id="btnlogout" layoutX="30.0" layoutY="700.0" mnemonicParsing="false" onAction="#clicklogout" styleClass="custom-exit" text="Log out">
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+         <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="40.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="40.0">
+            <image>
+               <Image url="@../assets/logo/pos.me%20dashboard.png" />
+            </image>
+         </ImageView>
+         <Label fx:id="txtlbl" layoutX="26.0" layoutY="142.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
+         <Label fx:id="txtName" layoutX="90.0" layoutY="150.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
+         <Label layoutX="67.0" layoutY="149.0" styleClass="txtname" text=":" />
+         <AnchorPane layoutX="943.0" prefHeight="800.0" prefWidth="442.0" styleClass="custom-pannel" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-               <TableView fx:id="tbl_receipt" layoutX="5.0" layoutY="11.0" prefHeight="336.0" prefWidth="483.0" AnchorPane.topAnchor="11.0">
+               <TableView fx:id="tbl_receipt" layoutX="6.0" prefHeight="349.0" prefWidth="431.0">
                  <columns>
                    <TableColumn fx:id="receipt_product_name" prefWidth="119.3333740234375" text="Product Name" />
                    <TableColumn fx:id="receipt_quantity" prefWidth="79.0" text="Quantity" />
@@ -57,26 +82,24 @@
                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                   </columnResizePolicy>
                </TableView>
-               <Label layoutX="210.0" layoutY="523.0" prefHeight="30.0" prefWidth="69.0" text="Sub tolal =" />
-               <Label fx:id="lblamount" layoutX="13.0" layoutY="406.0" text="Amount" />
-               <Label fx:id="lbltotal" layoutX="273.0" layoutY="530.0" text="0.0$" />
-               <TextField fx:id="txtamount" layoutX="66.0" layoutY="402.0" prefHeight="30.0" prefWidth="149.0" promptText="Enter amount" />
-               <Label layoutX="227.0" layoutY="561.0" text="Tax = " />
-               <Label fx:id="lbltax" layoutX="270.0" layoutY="562.0" text="0.01$" />
-               <Button fx:id="btnpay" layoutX="152.0" layoutY="652.0" mnemonicParsing="false" onAction="#click_pay" prefHeight="30.0" prefWidth="255.0" text="Pay" />
-               <Button fx:id="btnremove" layoutX="152.0" layoutY="704.0" mnemonicParsing="false" onAction="#clickremove" prefHeight="30.0" prefWidth="98.0" text="Remove" />
-               <Button fx:id="btngenate_receipt" layoutX="265.0" layoutY="703.0" mnemonicParsing="false" onAction="#clickreceipt" prefHeight="30.0" prefWidth="140.0" text="Receipt " />
-               <ComboBox fx:id="cmb_payment_method" layoutX="14.0" layoutY="359.0" prefWidth="150.0" promptText="Payment Option" />
-               <Label layoutX="214.0" layoutY="613.0" prefHeight="17.0" prefWidth="63.0" text=" Total = " />
-               <Label fx:id="subtotal" layoutX="288.0" layoutY="612.0" text="0.0$" />
-               <Label layoutX="12.0" layoutY="456.0" text="Discount" />
-               <TextField fx:id="txtdiscount" layoutX="66.0" layoutY="449.0" prefHeight="30.0" prefWidth="149.0" promptText="Enter discount" />
+               <Label layoutX="145.0" layoutY="558.0" prefHeight="30.0" prefWidth="98.0" styleClass="custom-lables" text="Sub tolal          =" />
+               <Label fx:id="lblamount" layoutX="80.0" layoutY="446.0" styleClass="custom-lables" text="Amount" />
+               <Label fx:id="lbltotal" layoutX="267.0" layoutY="566.0" styleClass="custom-lables" text="0.0" />
+               <TextField fx:id="txtamount" layoutX="146.0" layoutY="439.0" prefHeight="30.0" prefWidth="150.0" promptText="Enter amount" styleClass="custom-textfeild" />
+               <Label layoutX="146.0" layoutY="602.0" prefHeight="16.0" prefWidth="98.0" styleClass="custom-lables" text="Tax                  = " />
+               <Label fx:id="lbltax" layoutX="268.0" layoutY="602.0" styleClass="custom-lables" text="0.0" />
+               <Button fx:id="btnpay" layoutX="97.0" layoutY="734.0" mnemonicParsing="false" onAction="#click_pay" prefHeight="40.0" prefWidth="255.0" styleClass="custom-btnlogin" text="Pay" />
+               <ComboBox fx:id="cmb_payment_method" layoutX="145.0" layoutY="379.0" prefHeight="30.0" prefWidth="150.0" promptText="Payment Option" styleClass="cmb_payment_method" />
+               <Label fx:id="total" layoutX="150.0" layoutY="684.0" prefHeight="21.0" prefWidth="123.0" styleClass="total" text=" Total         = " />
+               <Label fx:id="subtotal" layoutX="262.0" layoutY="684.0" styleClass="total" text="0.0" />
+               <Label layoutX="82.0" layoutY="525.0" styleClass="custom-lables" text="Discount" />
+               <TextField fx:id="txtdiscount" layoutX="148.0" layoutY="518.0" prefHeight="30.0" prefWidth="150.0" promptText="Enter discount" styleClass="custom-textfeild" />
                <Button fx:id="add_discount" layoutX="225.0" layoutY="453.0" mnemonicParsing="false" onAction="#click_add_discount" prefHeight="25.0" prefWidth="57.0" text="add" visible="false" />
-               <Label layoutX="204.0" layoutY="585.0" text="Discount = " />
-               <Label fx:id="lbldiscount" layoutX="283.0" layoutY="586.0" text="0.0" />
+               <Label layoutX="146.0" layoutY="638.0" prefHeight="16.0" prefWidth="98.0" styleClass="custom-lables" text="Discount          = " />
+               <Label fx:id="lbldiscount" layoutX="269.0" layoutY="637.0" styleClass="custom-lables" text="0.0" />
                <Button fx:id="remove_discount" layoutX="286.0" layoutY="453.0" mnemonicParsing="false" onAction="#click_remove_discount" prefHeight="25.0" prefWidth="57.0" text="remove" visible="false" />
-               <Label fx:id="lblre_balance" layoutX="225.0" layoutY="408.0" prefHeight="17.0" prefWidth="74.0" text="re . balance =" />
-               <Label fx:id="lbl_re_balance" layoutX="309.0" layoutY="410.0" text="0.0" />
+               <Label fx:id="lblre_balance" layoutX="146.0" layoutY="481.0" prefHeight="17.0" prefWidth="98.0" styleClass="custom-lables" text="re . balance     =" />
+               <Label fx:id="lbl_re_balance" layoutX="267.0" layoutY="483.0" styleClass="custom-lables" text="0.0" />
             </children>
          </AnchorPane>
       </AnchorPane>

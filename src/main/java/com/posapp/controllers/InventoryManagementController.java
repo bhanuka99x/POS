@@ -68,12 +68,14 @@ public class InventoryManagementController {
 
     @FXML
     private TableColumn<InventoryItem, Integer > quantitycell;
+    @FXML
+    private TableColumn<InventoryItem, Void> cell_action;
 
     @FXML
     private TableView<InventoryItem> tblinventory;
 
     @FXML
-    private Label txtlbl;
+    private Label txtlbl,txtName;
 
     @FXML
     private TextField txtname;
@@ -116,27 +118,6 @@ public class InventoryManagementController {
         }
 
     }
-
-
-    @FXML
-    void clickdelete(ActionEvent event) {
-        InventoryItem selected = tblinventory.getSelectionModel().getSelectedItem();
-        if (selected == null) return;
-
-        try (Connection conn = com.posapp.dbconnection.dbconn.connect()) {
-            String sql = "DELETE FROM inventory WHERE item_name = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, selected.getItemname());
-            stmt.executeUpdate();
-            LoadInventoryData();
-            clearFields();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
 
 
     @FXML
@@ -198,6 +179,41 @@ public class InventoryManagementController {
         });
 
         imagecell.setCellValueFactory(new PropertyValueFactory<>("itemimage"));
+        cell_action.setCellFactory(col -> new TableCell<>() {
+            private final Button removebutton = new Button("Remove");
+
+            {
+                removebutton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 80px;-fx-pref-height: 30px;");
+                removebutton.setOnAction(actionEvent -> {
+                    InventoryItem item = getTableView().getItems().get(getIndex());
+                    if (item == null) return;
+
+                    try (Connection conn = dbconn.connect()) {
+                        String sql = "DELETE FROM inventory WHERE inventory_id = ?";
+                        PreparedStatement stmt = conn.prepareStatement(sql);
+                        stmt.setInt(1, item.getId());
+                        int rowsAffected = stmt.executeUpdate();
+                        if (rowsAffected > 0) {
+                            Inventorylist.remove(item); // remove from UI list
+                            clearFields();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(removebutton);
+                }
+            }
+        });
+
         LoadInventoryData();
         tblinventory.setOnMouseClicked(event -> {
             InventoryItem selectedItem = tblinventory.getSelectionModel().getSelectedItem();
@@ -228,8 +244,8 @@ public class InventoryManagementController {
             if(imagedata !=null){
                 Image img = new Image(new ByteArrayInputStream(imagedata));
                 this.ItemImage = new ImageView(img);
-                this.ItemImage.setFitWidth(50);
-                this.ItemImage.setFitHeight(50);
+                this.ItemImage.setFitWidth(90);
+                this.ItemImage.setFitHeight(90);
             }else {
                 this.ItemImage = new ImageView();
             }

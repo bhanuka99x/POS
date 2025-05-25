@@ -5,7 +5,6 @@
     -fx-faint-focus-color: transparent;
     -fx-background-insets: 0;
 
-
 }
 .custom-password {
     -fx-background-color: transparent;
@@ -13,13 +12,112 @@
 }
 .custom-btnlogin{
     -fx-background-color: #00102b;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
     -fx-font-size: 15px;
+    -fx-font-weight: bold;
     -fx-text-alignment: center;
-    -fx-border-radius: 3;
+
 }
+.custom-btnadd{
+    -fx-background-color: #40a153;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family:Calibri;
+    -fx-font-size:15px;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 30px;
+}
+.custom-btndelete{
+    -fx-background-color: #ff4d4d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family:Calibri;
+    -fx-font-size:15px;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 30px;
+
+}
+.image-border {
+    -fx-border-color: #007ACC;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-padding: 3px;
+}
+
+/* dashboard */
+
+.custom-btndash{
+    -fx-background-color: #00102b;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+}
+.custom-pannel{
+   -fx-background-color: #94B4C1;
+}
+
 .custom-exit {
     -fx-background-color: #1982ff;
+    -fx-text-fill: white;
     -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 30px;
     -fx-text-alignment: center;
-    -fx-border-radius: 50;
+}
+.custom-lables{
+    -fx-font-family: Arial;
+    -fx-font-size: 13px;
+}
+.custom-mainback{
+    -fx-background-color: #E4EFE7;
+}
+.total{
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+.txtlbl,.txtname{
+    -fx-text-fill: black;
+    -fx-font-size: 13px;
+    -fx-font-family: Arial;
+    -fx-font-weight: bold;
+}
+.cmb_payment_method{
+    -fx-prompt-text-fill: red;
+    -fx-font-family: Arial;
+}
+.custom-textfeild{
+
+}
+/* table */
+.table-view{
+    -fx-background-color: #F8EEDF;
+   -fx-border-width: none;
+
+}
+.table-view .column-header-background {
+  -fx-background-color: transparent;
+
+}
+.table-view .column-header{
+    -fx-background-color: #ffeed0;
+    -fx-font-size: 13px;
+    -fx-font-family: Calibri;
+
+}
+.table-view .column-header-background .lable{
+
+}
+.table-row-cell{
+    -fx-background-color: transparent;
+
+}
+.table-view .table-cell{
+    -fx-alignment: center;
+    -fx-font-family: Arial;
+    -fx-text-fill: black;
+    -fx-font-size: 13px;
 }

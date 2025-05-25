@@ -25,7 +25,7 @@ public class OperatorDashboardController {
 
     // FXML fields
     @FXML private Button btncustomers, btninventory, btnlogout, btnmenu, btnorders, btnreports;
-    @FXML private Label txtlbl, lbltotal, lbltax, subtotal, lblamount, lbldiscount;
+    @FXML private Label txtlbl, lbltotal, lbltax, subtotal, lblamount, lbldiscount,txtName,lbl_re_balance;
     @FXML private TextField txtamount, txtdiscount;
     @FXML private ComboBox<String> cmb_payment_method;
 
@@ -48,10 +48,6 @@ public class OperatorDashboardController {
 
     private final ObservableList<ReceiptItem> receiptList = FXCollections.observableArrayList();
 
-    private double calculatedSubTotal = 0.0;
-    private double calculatedTax = 0.0;
-    private double calculatedDiscount = 0.0;
-    private double calculatedTotal = 0.0;
 
     public void initialize() {
         cmb_payment_method.setItems(FXCollections.observableArrayList("Cash", "Card"));
@@ -61,6 +57,8 @@ public class OperatorDashboardController {
         configurePaymentLogic();
 
         txtdiscount.setOnAction(e -> totalprice());
+        txtamount.setOnAction(  e -> totalprice());
+
 
         txtdiscount.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -83,6 +81,7 @@ public class OperatorDashboardController {
             if ("Card".equals(cmb_payment_method.getValue())) {
                 txtamount.setDisable(true);
                 lblamount.setDisable(true);
+
             } else {
                 txtamount.setDisable(false);
                 lblamount.setDisable(false);
@@ -90,15 +89,22 @@ public class OperatorDashboardController {
         });
     }
 
+    private double calculatedSubTotal = 0.0;
+    private double calculatedTax = 0.0;
+    private double calculatedDiscount = 0.0;
+    private double calculatedTotal = 0.0;
+
     public void totalprice(){
+
         double total = receiptList.stream().mapToDouble(ReceiptItem::getPrice).sum();
         double taxRate = 0.15;
         calculatedTax = total * taxRate;
         calculatedSubTotal = total + calculatedTax;
 
-        lbltotal.setText(String.format("$%.2f", total));
-        lbltax.setText(String.format("$%.2f", calculatedTax));
-        subtotal.setText(String.format("$%.2f", calculatedSubTotal));
+
+        lbltotal.setText(String.format("$%.2f ", total));
+        lbltax.setText(String.format("$%.2f ", calculatedTax));
+        subtotal.setText(String.format("$%.2f ", calculatedSubTotal));
 
         try {
             double discountPercent = Double.parseDouble(txtdiscount.getText());
@@ -107,10 +113,17 @@ public class OperatorDashboardController {
         } catch (NumberFormatException e) {
             calculatedDiscount = 0.0;
         }
+        try {
+            double amount = Double.parseDouble(txtamount.getText());
+            double remaining = amount - calculatedSubTotal;
 
-        lbldiscount.setText(String.format("$%.2f", calculatedDiscount));
+            lbl_re_balance.setText(String.format("$%.2f ", remaining));
+        } catch (NumberFormatException ex) {
+            lbl_re_balance.setText("0.00");
+        }
+        lbldiscount.setText(String.format("$%.2f ", calculatedDiscount));
         calculatedTotal = calculatedSubTotal - calculatedDiscount;
-        subtotal.setText(String.format("$%.2f", calculatedTotal));
+        subtotal.setText(String.format("$%.2f ", calculatedTotal));
     }
 
     public void click_pay(ActionEvent event) {
@@ -181,6 +194,7 @@ public class OperatorDashboardController {
                 totalprice();
                 txtdiscount.clear();
                 cmb_payment_method.getSelectionModel().clearSelection();
+                txtamount.clear();
             } else {
                 showAlert("Database Error", "Failed to record payment.");
             }
@@ -206,6 +220,7 @@ public class OperatorDashboardController {
 
     public void click_remove_discount(ActionEvent event) {
     }
+
 
     // ------------ Product & Receipt Logic (No Changes) ------------
 
@@ -262,7 +277,7 @@ public class OperatorDashboardController {
         price.setCellFactory(col -> new TableCell<>() {
             @Override protected void updateItem(Double price, boolean empty) {
                 super.updateItem(price, empty);
-                setText(empty || price == null ? null : "$" + price);
+                setText(empty || price == null ? null : "$ " + price);
             }
         });
 
@@ -273,8 +288,8 @@ public class OperatorDashboardController {
                 if (empty || img == null) setGraphic(null);
                 else {
                     imageView.setImage(img);
-                    imageView.setFitHeight(50);
-                    imageView.setFitWidth(50);
+                    imageView.setFitHeight(90);
+                    imageView.setFitWidth(90);
                     setGraphic(imageView);
                 }
             }
@@ -292,6 +307,7 @@ public class OperatorDashboardController {
         action.setCellFactory(col -> new TableCell<>() {
             private final Button addButton = new Button("Add");
             {
+                addButton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 100px;-fx-pref-height: 30px;");
                 addButton.setOnAction(e -> {
                     Product p = getTableView().getItems().get(getIndex());
                     int qty = p.getSpinner().getValue();
@@ -317,13 +333,14 @@ public class OperatorDashboardController {
         receipt_price.setCellFactory(col -> new TableCell<>() {
             @Override protected void updateItem(Double price, boolean empty) {
                 super.updateItem(price, empty);
-                setText(empty || price == null ? null : "$" + price);
+                setText(empty || price == null ? null : "$ " + price);
             }
         });
 
         re_action.setCellFactory(col -> new TableCell<>() {
             private final Button removeButton = new Button("Remove");
             {
+                removeButton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 80px;-fx-pref-height: 30px;");
                 removeButton.setOnAction(e -> {
                     ReceiptItem item = getTableView().getItems().get(getIndex());
                     receiptList.remove(item);
@@ -364,10 +381,16 @@ public class OperatorDashboardController {
     }
 
     private String userRole;
+    private String operator;
     public void setUserRole(String role) {
         this.userRole = role;
         configureDashboard();
     }
+    public void setName(String operatorname){
+        this.operator = operatorname;
+        configureDashboard();
+    }
+
 
     private void configureDashboard() {
         if ("admin".equals(userRole)) {
@@ -378,6 +401,7 @@ public class OperatorDashboardController {
             btnreports.setVisible(true);
             btnlogout.setVisible(true);
             txtlbl.setText(userRole);
+            txtName.setText(operator);
         } else if ("operator".equals(userRole)) {
             btnmenu.setVisible(true);
             btninventory.setVisible(true);
@@ -386,6 +410,7 @@ public class OperatorDashboardController {
             btnreports.setVisible(false);
             btnlogout.setVisible(true);
             txtlbl.setText(userRole);
+            txtName.setText(operator);
         }
     }
 
@@ -451,7 +476,5 @@ public class OperatorDashboardController {
         currentstage.close();
     }
     public void clicklogout(ActionEvent event) {}
-    public void clickreceipt(ActionEvent event) {}
-    public void clickremove(ActionEvent event) {}
 
 }

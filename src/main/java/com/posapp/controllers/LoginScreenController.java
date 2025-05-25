@@ -20,29 +20,14 @@ import java.sql.ResultSet;
 
 public class LoginScreenController  {
 
-    @FXML
-    private Button btnlexit;
+    @FXML private Button btnlexit,btnexit;
+    @FXML private PasswordField txtpassword;
+    @FXML private TextField txtuser;
+    @FXML private Label lblversion;
+    @FXML private ImageView logoimage;
+    @FXML private ProgressIndicator progressindicator;
 
-    @FXML
-    private Button btnexit;
-
-    @FXML
-    private PasswordField txtpassword;
-
-    @FXML
-    private TextField txtuser;
-
-    @FXML
-    private Label lblversion;
-
-    @FXML
-    private ImageView logoimage;
-
-    @FXML
-    private ProgressIndicator progressindicator;
-
-    @FXML
-    private void handleKeyevent(KeyEvent event){
+    @FXML private void handleKeyevent(KeyEvent event){
         if(event.getCode() == KeyCode.ENTER){
             loginsystem();
         }
@@ -51,8 +36,7 @@ public class LoginScreenController  {
         }
     }
 
-    @FXML
-    private void closelogin(){
+    @FXML private void closelogin(){
 
         if(Alerts.showconfirmation("Exit","Are you sure you want to exit?")){
             Platform.exit();
@@ -60,10 +44,8 @@ public class LoginScreenController  {
     }
 
     public void loginsystem(){
-
         String username = txtuser.getText();
         String password = txtpassword.getText();
-
         if(username.isEmpty() || password.isEmpty()){
             Alerts.showError("Error","Please enter username and password");
             return;
@@ -74,14 +56,14 @@ public class LoginScreenController  {
             stmt.setString(1,username);
             stmt.setString(2,password);
             ResultSet rs = stmt.executeQuery();
-
             if(rs.next()){
                 String role = rs.getString("role");
+                String operatorname = rs.getString("user_name");
+                System.out.println("username" + operatorname);
                 System.out.println("user role" + role );
                 Stage curruntstage = (Stage) txtuser.getScene().getWindow();
                 curruntstage.close();
-                load_dashboard(role);
-
+                load_dashboard(role,operatorname);
             }else{
                 Alerts.showError("Error", "Invalid username or password.");
             }
@@ -108,16 +90,18 @@ public class LoginScreenController  {
         }
 
     }
-    public void load_dashboard(String role) {
+
+    public void load_dashboard(String role,String operatorname) {
         try {
             FXMLLoader loaderop = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
             Scene dashscene = new Scene(loaderop.load());
             Stage dashstage = new Stage();
             dashstage.setScene(dashscene);
             dashstage.setMaximized(true);
-
             OperatorDashboardController operatorDashboardController = loaderop.getController();
             operatorDashboardController.setUserRole(role);
+            operatorDashboardController.setName(operatorname);
+            dashscene.getStylesheets().add(getClass().getResource("/com/posapp/css/Application.css").toExternalForm());
             dashstage.show();
         } catch (Exception e) {
             e.printStackTrace();
