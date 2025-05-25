@@ -61,6 +61,8 @@ public class AdminDashboardController {
 
     @FXML
     private TableColumn<UserRow,String> colRole;
+    @FXML
+    private TableColumn<UserRow,Void> cell_action;
 
     @FXML
     private Label txtlbl;
@@ -85,6 +87,37 @@ public class AdminDashboardController {
         colUser.setCellValueFactory(new PropertyValueFactory<>("username"));
         colPass.setCellValueFactory(new PropertyValueFactory<>("password"));
         colRole.setCellValueFactory(new PropertyValueFactory<>("role"));
+        cell_action.setCellFactory(e->new TableCell<>(){
+            private final Button removebutton = new Button("Remove");
+            {
+                removebutton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 80px;-fx-pref-height: 30px;");
+                removebutton.setOnAction(actionEvent -> {
+                    UserRow item = getTableView().getItems().get(getIndex());
+                    if (item == null) return;
+
+                    try (Connection conn = dbconn.connect()) {
+                        String sql = "DELETE FROM users WHERE user_id = ?";
+                        PreparedStatement stmt = conn.prepareStatement(sql);
+                        stmt.setInt(1, item.getId());
+                        int rowsAffected = stmt.executeUpdate();
+                        if (rowsAffected > 0) {
+                            userList.remove(item);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(removebutton);
+                }
+            }
+        });
         tblusers.setItems(userList);
         loaduser();
 
@@ -153,20 +186,6 @@ public class AdminDashboardController {
                 stmt.setString(2,password);
                 stmt.setString(3,role);
                 stmt.setInt(4,selectedUser.getId());
-                stmt.executeUpdate();
-                loaduser();
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void clickdelete(ActionEvent event) {
-        if(selectedUser == null)return;{
-            String sql = "DELETE FROM users WHERE user_id = ? ";
-            try(Connection conn = dbconn.connect();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setInt(1,selectedUser.getId());
                 stmt.executeUpdate();
                 loaduser();
             }catch (SQLException e){

@@ -7,6 +7,7 @@ module com.posapp {
     requires java.desktop;
     requires itextpdf;
     requires org.apache.pdfbox;
+    requires mysql.connector.java;
 
     opens com.posapp.controllers to javafx.fxml, javafx.base;
     exports com.posapp;

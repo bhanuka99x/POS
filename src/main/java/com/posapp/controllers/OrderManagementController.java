@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.PushbackInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ public class OrderManagementController {
     @FXML private TextField txtsearch;
 
     @FXML private TableColumn<PaymentItem, Double> cell_discount;
-    @FXML private TableColumn<PaymentItem, Double> cell_payment_action;
+    @FXML private TableColumn<PaymentItem, Void> cell_payment_action;
     @FXML private TableColumn<PaymentItem, String> cell_payment_date;
     @FXML private TableColumn<PaymentItem, Integer> cell_payment_id;
     @FXML private TableColumn<PaymentItem, String> cell_payment_option;
@@ -33,6 +34,7 @@ public class OrderManagementController {
     @FXML private TableColumn<PaymentItem, Double> cell_payment_total;
     @FXML private TableColumn<PaymentItem, Double> cell_tax;
     @FXML private TableColumn<PaymentItem, Double> cell_total;
+    @FXML private TableColumn<PaymentItem,String>cell_taken_items;
     @FXML private TableView<PaymentItem> payment_record;
 
 
@@ -68,6 +70,39 @@ public class OrderManagementController {
         cell_total.setCellValueFactory(new PropertyValueFactory<>("total"));
         cell_payment_time.setCellValueFactory(new PropertyValueFactory<>("paymentTime"));
         cell_payment_date.setCellValueFactory(new PropertyValueFactory<>("paymentDate"));
+        cell_taken_items.setCellValueFactory(new PropertyValueFactory<>("TakenItems"));
+        cell_payment_action.setCellFactory(e->new TableCell<>(){
+            private final Button removebutton = new Button("Remove");
+            {
+                removebutton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 80px;-fx-pref-height: 30px;");
+                removebutton.setOnAction(actionEvent -> {
+                    PaymentItem item = getTableView().getItems().get(getIndex());
+                    if (item == null) return;
+
+                    try (Connection conn = dbconn.connect()) {
+                        String sql = "DELETE FROM payments WHERE payment_id = ?";
+                        PreparedStatement stmt = conn.prepareStatement(sql);
+                        stmt.setInt(1, item.getId());
+                        int rowsAffected = stmt.executeUpdate();
+                        if (rowsAffected > 0) {
+                            PaymentList.remove(item);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(removebutton);
+                }
+            }
+        });
+
     }
     public class PaymentItem {
         private int id;
@@ -78,8 +113,9 @@ public class OrderManagementController {
         private double total;
         private String paymentDate;
         private String paymentTime;
+        private String TakenItems;
 
-        public PaymentItem(int id, String paymentOption, double subTotal, double tax, double discount, double total, String paymentDate, String paymentTime) {
+        public PaymentItem(int id, String paymentOption, double subTotal, double tax, double discount, double total, String paymentDate, String paymentTime,String TakenItems) {
             this.id = id;
             this.paymentOption = paymentOption;
             this.subTotal = subTotal;
@@ -88,6 +124,7 @@ public class OrderManagementController {
             this.total = total;
             this.paymentDate = paymentDate;
             this.paymentTime = paymentTime;
+            this.TakenItems = TakenItems;
         }
 
         public int getId() {return id;}
@@ -98,6 +135,7 @@ public class OrderManagementController {
         public double getTotal() {return total;}
         public String getPaymentDate() {return paymentDate;}
         public String getPaymentTime() {return paymentTime;}
+        public String getTakenItems(){return TakenItems;}
 
     }
 
@@ -117,8 +155,9 @@ public class OrderManagementController {
                 double total = rs.getDouble("total");
                 String paymentdate = rs.getString("payment_date");
                 String paymenttime = rs.getString("payment_time");
+                String takenitems = rs.getString("taken_items");
 
-                PaymentList.add(new PaymentItem(id,pay_option,subtotal,tax,discount,total,paymentdate,paymenttime));
+                PaymentList.add(new PaymentItem(id,pay_option,subtotal,tax,discount,total,paymentdate,paymenttime,takenitems));
             }
             payment_record.setItems(PaymentList);
 

@@ -59,6 +59,21 @@ public class OperatorDashboardController {
         txtdiscount.setOnAction(e -> totalprice());
         txtamount.setOnAction(  e -> totalprice());
 
+        txtamount.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case BACK_SPACE:
+                    if (txtamount.getText().length() <= 1) {
+                        txtamount.clear();
+                        calculatedAmount = 0.0;
+                        totalprice();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+
+
 
         txtdiscount.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -93,6 +108,7 @@ public class OperatorDashboardController {
     private double calculatedTax = 0.0;
     private double calculatedDiscount = 0.0;
     private double calculatedTotal = 0.0;
+    private double calculatedAmount =0.0;
 
     public void totalprice(){
 
@@ -115,9 +131,9 @@ public class OperatorDashboardController {
         }
         try {
             double amount = Double.parseDouble(txtamount.getText());
-            double remaining = amount - calculatedSubTotal;
+            calculatedAmount = amount - calculatedSubTotal;
 
-            lbl_re_balance.setText(String.format("$%.2f ", remaining));
+            lbl_re_balance.setText(String.format("$%.2f ", calculatedAmount));
         } catch (NumberFormatException ex) {
             lbl_re_balance.setText("0.00");
         }

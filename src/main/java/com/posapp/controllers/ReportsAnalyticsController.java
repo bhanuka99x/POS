@@ -54,8 +54,8 @@ public class ReportsAnalyticsController {
             if (imagedata != null) {
                 Image img = new Image(new ByteArrayInputStream(imagedata));
                 this.itemimage = new ImageView(img);
-                this.itemimage.setFitHeight(50);
-                this.itemimage.setFitWidth(50);
+                this.itemimage.setFitHeight(90);
+                this.itemimage.setFitWidth(90);
             } else {
                 this.itemimage = new ImageView();
             }
@@ -70,6 +70,7 @@ public class ReportsAnalyticsController {
     public void Configuretable(){
         cell_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         cell_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        cell_quantity.setSortType(TableColumn.SortType.DESCENDING);
         cell_image.setCellValueFactory(new PropertyValueFactory<>("itemimage"));
     }
     private void LoadInventoryData() {
@@ -95,22 +96,14 @@ public class ReportsAnalyticsController {
 
 
             tblbestselling.setItems(Inventorylist);
+            cell_quantity.setSortType(TableColumn.SortType.DESCENDING);
+            tblbestselling.getSortOrder().setAll(cell_quantity);
+            tblbestselling.sort();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
     private void loadTotalIncomes(){
         try(Connection conn = dbconn.connect()){
@@ -119,7 +112,7 @@ public class ReportsAnalyticsController {
                 ResultSet rs = stmt.executeQuery()){
                 if(rs.next()){
                     double income = rs.getDouble("total_income");
-                    lblincome.setText("$" + String.format("%.2f", income));
+                    lblincome.setText("$ " + String.format("%.2f", income));
                 }
 
             }
@@ -138,7 +131,7 @@ public class ReportsAnalyticsController {
                  ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     double cash = rs.getDouble("cash_total");
-                    lblnumcashpayment.setText("$" + String.format("%.2f", cash));
+                    lblnumcashpayment.setText("$ " + String.format("%.2f", cash));
                 }
             }
 
@@ -147,12 +140,30 @@ public class ReportsAnalyticsController {
                  ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     double card = rs.getDouble("card_total");
-                    lblnumofcardpayment.setText("$" + String.format("%.2f", card));
+                    lblnumofcardpayment.setText("$ " + String.format("%.2f", card));
                 }
             }
+
+            String query = "SELECT COUNT(*) AS total FROM customers";
+            try (Connection con = dbconn.connect();
+                 PreparedStatement ps = con.prepareStatement(query);
+                 ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    int total = rs.getInt("total");
+                    lblttlcustomers.setText(String.valueOf(total));
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                lblttlcustomers.setText("0");
+            }
+
+
         }catch (SQLException e){
             e.printStackTrace();
         }
+
     }
 
 

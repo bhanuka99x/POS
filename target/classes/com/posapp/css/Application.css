@@ -44,6 +44,13 @@
     -fx-border-radius: 5px;
     -fx-padding: 3px;
 }
+.background{
+    -fx-background-color: #FFF2EB;
+}
+.header-lable{
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+}
 
 /* dashboard */
 
@@ -120,4 +127,10 @@
     -fx-font-family: Arial;
     -fx-text-fill: black;
     -fx-font-size: 13px;
+}
+
+/* sales */
+
+.sales-labels{
+    -fx-font-size: 17px;
 }
