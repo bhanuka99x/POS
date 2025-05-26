@@ -190,6 +190,7 @@ public class AdminDashboardController {
             txtpassword.clear();
             cmbrole.setValue(null);
             Alerts.showSuccess("Success", "User added successfully.");
+            clearfield();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -237,6 +238,7 @@ public class AdminDashboardController {
 
             loaduser();
             Alerts.showSuccess("Success", "User updated successfully.");
+            clearfield();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -267,6 +269,12 @@ public class AdminDashboardController {
         public String getRole(){
             return role;
         }
+    }
+
+    public void clearfield(){
+        txtpassword.clear();
+        txtusername.clear();
+        cmbrole.setValue(null);
     }
 
     private String userRole;

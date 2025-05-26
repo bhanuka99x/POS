@@ -229,11 +229,11 @@ public class CustomerManagementController {
                 loadCustomerData();
 
             } catch (SQLException e) {
-                showAlert("Database Error", "Failed to update customer.");
+                showAlert("Error", "Failed to update customer.");
                 e.printStackTrace();
             }
         } catch (NumberFormatException e) {
-            showAlert("Validation Error", "Phone number must be numeric.");
+            showAlert("Error", "Phone number must be Numbers");
         }
     }
 
@@ -254,6 +254,11 @@ public class CustomerManagementController {
         public int getPhone() { return phone; }
         public String getDate() { return date; }
         public CheckBox getSelect() { return select; }
+    }
+
+    public void clearfield(){
+        txtmobilenumber.clear();
+        txtmessage.clear();
     }
 
     private String userRole;
