@@ -177,7 +177,7 @@ public class OperatorDashboardController {
                     }
                 }
 
-                // Ask to generate receipt with paymentId
+                // generate receipt
                 if (Alerts.showconfirmation("Generate Receipt", "Do you want to generate a receipt?", "Click OK to generate the receipt, or Cancel to skip.")) {
                     ReceiptGenerator.generateReceipt(
                             receiptList,
@@ -186,7 +186,7 @@ public class OperatorDashboardController {
                             calculatedDiscount,
                             calculatedTotal,
                             paymentOption,
-                            paymentId // Pass the ID here
+                            paymentId
                     );
                 }
 
@@ -206,7 +206,7 @@ public class OperatorDashboardController {
         }
     }
 
-    // ------------ Product & Receipt Logic (No Changes) ------------
+    // ------------ Product & Receipt Logic ------------
 
     // Product Table
     @FXML private TableView<Product> tbl_product_display;

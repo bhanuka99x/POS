@@ -72,7 +72,7 @@
                </columnResizePolicy>
             </TableView>
             <Button fx:id="btnadd" layoutX="516.0" layoutY="63.0" mnemonicParsing="false" onAction="#clickadd" prefHeight="30.0" prefWidth="135.0" styleClass="custom-btnadd" text="Add user" />
-            <Button fx:id="btnedit" layoutX="517.0" layoutY="142.0" mnemonicParsing="false" onAction="#clickedit" prefHeight="30.0" prefWidth="135.0" styleClass="custom-btnadd" text="edit" />
+            <Button fx:id="btnedit" layoutX="517.0" layoutY="142.0" mnemonicParsing="false" onAction="#clickedit" prefHeight="30.0" prefWidth="135.0" styleClass="custom-btnadd" text="Update" />
             <Label layoutX="206.0" layoutY="66.0" styleClass="sales-labels" text="Name" />
             <Label layoutX="203.0" layoutY="144.0" styleClass="sales-labels" text="Password" />
             <Label layoutX="213.0" layoutY="218.0" styleClass="sales-labels" text="Role" />

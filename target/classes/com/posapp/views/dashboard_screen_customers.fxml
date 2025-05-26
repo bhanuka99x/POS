@@ -72,7 +72,7 @@
             <TextField fx:id="txtmobilenumber" layoutX="886.0" layoutY="54.0" prefHeight="41.0" prefWidth="253.0" promptText="Mobile Number" styleClass="custom-textfeild1" />
             <Label layoutX="680.0" layoutY="60.0" styleClass="sales-labels" text="Customer mobile number" />
             <Button fx:id="btnadd" layoutX="890.0" layoutY="127.0" mnemonicParsing="false" onAction="#clickadd" styleClass="custom-btnadd" text="Add" />
-            <Button fx:id="btnedit" layoutX="1036.0" layoutY="126.0" mnemonicParsing="false" onAction="#clickedit" styleClass="custom-btnadd" text="edit" />
+            <Button fx:id="btnedit" layoutX="1036.0" layoutY="126.0" mnemonicParsing="false" onAction="#clickedit" styleClass="custom-btnadd" text="Update" />
             <TextArea fx:id="txtmessage" layoutX="703.0" layoutY="203.0" prefHeight="279.0" prefWidth="436.0" promptText="Type Message Here" styleClass="custom-textfeild1" />
             <Button fx:id="btnsend" layoutX="1041.0" layoutY="515.0" mnemonicParsing="false" onAction="#clicksend" styleClass="custom-btnadd" text="Send" />
             <Label layoutX="68.0" layoutY="150.0" styleClass="txtlbl" text=":" />
