@@ -2,6 +2,7 @@ package com.posapp.controllers;
 
 import com.posapp.dbconnection.dbconn;
 
+import com.posapp.util.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.*;
@@ -254,65 +256,145 @@ public class CustomerManagementController {
         public CheckBox getSelect() { return select; }
     }
 
+    private String userRole;
+    private String operator;
+    public void setUserRole(String role,String operator) {
+        this.userRole = role;
+        this.operator =operator;
+        configureDashboard();
+    }
+
+    private void configureDashboard() {
+        if ("admin".equals(userRole)) {
+            btnmenu.setDisable(false);
+            btncustomers.setDisable(false);
+            btninventory.setDisable(false);
+            btnorders.setDisable(false);
+            btnreports.setDisable(false);
+            btnlogout.setDisable(false);
+            btnope.setDisable(false);
+            txtlbl.setText(userRole);
+            txtName.setText(operator);
+        } else if ("operator".equals(userRole)) {
+            btnmenu.setDisable(false);
+            btncustomers.setDisable(false);
+            btninventory.setDisable(false);
+            btnorders.setDisable(true);
+            btnreports.setDisable(true);
+            btnope.setDisable(true);
+            cell_action.setVisible(!"operator".equals(userRole));
+            btnlogout.setDisable(false);
+            txtlbl.setText(userRole);
+            txtName.setText(operator);
+        }
+    }
+
     public void clickmenu(ActionEvent event) throws IOException {
+        clickmenu(userRole,operator);
+    }
+    @FXML
+    public void clickmenu(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        OperatorDashboardController operatorDashboardController = loader.getController();
+        operatorDashboardController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
+
     public void clickinventory(ActionEvent event) throws IOException {
+        clickinventory(userRole,operator);
+    }
+    @FXML
+    public void clickinventory(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_inventory.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        InventoryManagementController inventoryManagementController = loader.getController();
+        inventoryManagementController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
+
     public void clickcustomers(ActionEvent event) throws IOException {
+        clickcustomers(userRole,operator);
+    }
+    public void clickcustomers(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_customers.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        CustomerManagementController customerManagementController = loader.getController();
+        customerManagementController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
     public void clickorders(ActionEvent event) throws IOException {
+        clickorders(userRole,operator);
+    }
+    public void clickorders(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_orders.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        OrderManagementController orderManagementController = loader.getController();
+        orderManagementController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
     public void clickreports(ActionEvent event) throws IOException {
+        clickreports(userRole,operator);
+    }
+    public void clickreports(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_report.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        ReportsAnalyticsController reportsAnalyticsController = loader.getController();
+        reportsAnalyticsController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
     public void clickope(ActionEvent event) throws IOException {
+        clickope(userRole,operator);
+    }
+    public void clickope(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_operator.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        AdminDashboardController adminDashboardController = loader.getController();
+        adminDashboardController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
-    public void clicklogout(ActionEvent event) {}
+    public void clicklogout(ActionEvent event) throws IOException {
+
+        if (Alerts.showconfirmation("Exit","","Are you sure you want to logout?")){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/login_screen.fxml"));
+            Scene loginscene = new Scene(loader.load());
+            Stage loginstage = new Stage();
+            loginstage.setScene(loginscene);
+            loginstage.initStyle(StageStyle.UNDECORATED);
+            loginscene.getStylesheets().add(getClass().getResource("/com/posapp/css/Application.css").toExternalForm());
+            Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+            currentstage.close();
+            loginstage.show();
+        }
+    }
 }

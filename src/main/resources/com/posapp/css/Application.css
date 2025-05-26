@@ -93,10 +93,28 @@
     -fx-font-weight: bold;
 }
 .cmb_payment_method{
-    -fx-prompt-text-fill: red;
-    -fx-font-family: Arial;
+
+    fx-font-family: Arial;
+    -fx-font-weight: bold;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0;
 }
 .custom-textfeild{
+    -fx-font-family: Arial;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0;
+
+}
+.custom-textfeild1{
+    -fx-font-family: Arial;
+    -fx-font-weight: bold;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-insets: 0;
 
 }
 /* table */

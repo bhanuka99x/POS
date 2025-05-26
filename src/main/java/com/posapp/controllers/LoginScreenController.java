@@ -38,7 +38,7 @@ public class LoginScreenController  {
 
     @FXML private void closelogin(){
 
-        if(Alerts.showconfirmation("Exit","Are you sure you want to exit?")){
+        if(Alerts.showconfirmation("Exit","","Are you sure you want to exit?")){
             Platform.exit();
         }
     }
@@ -91,7 +91,7 @@ public class LoginScreenController  {
 
     }
 
-    public void load_dashboard(String role,String operatorname) {
+    public void load_dashboard(String role,String operator) {
         try {
             FXMLLoader loaderop = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
             Scene dashscene = new Scene(loaderop.load());
@@ -99,8 +99,7 @@ public class LoginScreenController  {
             dashstage.setScene(dashscene);
             dashstage.setMaximized(true);
             OperatorDashboardController operatorDashboardController = loaderop.getController();
-            operatorDashboardController.setUserRole(role);
-            operatorDashboardController.setName(operatorname);
+            operatorDashboardController.setUserRole(role,operator);
             dashscene.getStylesheets().add(getClass().getResource("/com/posapp/css/Application.css").toExternalForm());
             dashstage.show();
         } catch (Exception e) {

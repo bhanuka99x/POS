@@ -66,9 +66,9 @@
                <Image url="@../assets/logo/pos.me%20dashboard.png" />
             </image>
          </ImageView>
-         <Label fx:id="txtlbl" layoutX="26.0" layoutY="142.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
-         <Label fx:id="txtName" layoutX="90.0" layoutY="150.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
-         <Label layoutX="67.0" layoutY="149.0" styleClass="txtname" text=":" />
+         <Label fx:id="txtlbl" layoutX="31.0" layoutY="142.0" prefHeight="29.0" prefWidth="57.0" styleClass="txtname" text="who" />
+         <Label fx:id="txtName" layoutX="93.0" layoutY="149.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
+         <Label layoutX="79.0" layoutY="149.0" styleClass="txtname" text=":" />
          <AnchorPane layoutX="943.0" prefHeight="800.0" prefWidth="442.0" styleClass="custom-pannel" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                <TableView fx:id="tbl_receipt" layoutX="6.0" prefHeight="349.0" prefWidth="431.0">
@@ -76,7 +76,7 @@
                    <TableColumn fx:id="receipt_product_name" prefWidth="119.3333740234375" text="Product Name" />
                    <TableColumn fx:id="receipt_quantity" prefWidth="79.0" text="Quantity" />
                      <TableColumn fx:id="receipt_price" text="Price" />
-                     <TableColumn fx:id="re_action" prefWidth="69.0" text="re_action" />
+                     <TableColumn fx:id="re_action" prefWidth="69.0" text="Action" />
                  </columns>
                   <columnResizePolicy>
                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -85,7 +85,7 @@
                <Label layoutX="145.0" layoutY="558.0" prefHeight="30.0" prefWidth="98.0" styleClass="custom-lables" text="Sub tolal          =" />
                <Label fx:id="lblamount" layoutX="80.0" layoutY="446.0" styleClass="custom-lables" text="Amount" />
                <Label fx:id="lbltotal" layoutX="267.0" layoutY="566.0" styleClass="custom-lables" text="0.0" />
-               <TextField fx:id="txtamount" layoutX="146.0" layoutY="439.0" prefHeight="30.0" prefWidth="150.0" promptText="Enter amount" styleClass="custom-textfeild" />
+               <TextField fx:id="txtamount" layoutX="146.0" layoutY="439.0" prefHeight="30.0" prefWidth="150.0" promptText="Enter amount" styleClass="custom-textfeild1" />
                <Label layoutX="146.0" layoutY="602.0" prefHeight="16.0" prefWidth="98.0" styleClass="custom-lables" text="Tax                  = " />
                <Label fx:id="lbltax" layoutX="268.0" layoutY="602.0" styleClass="custom-lables" text="0.0" />
                <Button fx:id="btnpay" layoutX="97.0" layoutY="734.0" mnemonicParsing="false" onAction="#click_pay" prefHeight="40.0" prefWidth="255.0" styleClass="custom-btnlogin" text="Pay" />
@@ -93,11 +93,9 @@
                <Label fx:id="total" layoutX="150.0" layoutY="684.0" prefHeight="21.0" prefWidth="123.0" styleClass="total" text=" Total         = " />
                <Label fx:id="subtotal" layoutX="262.0" layoutY="684.0" styleClass="total" text="0.0" />
                <Label layoutX="82.0" layoutY="525.0" styleClass="custom-lables" text="Discount" />
-               <TextField fx:id="txtdiscount" layoutX="148.0" layoutY="518.0" prefHeight="30.0" prefWidth="150.0" promptText="Enter discount" styleClass="custom-textfeild" />
-               <Button fx:id="add_discount" layoutX="225.0" layoutY="453.0" mnemonicParsing="false" onAction="#click_add_discount" prefHeight="25.0" prefWidth="57.0" text="add" visible="false" />
+               <TextField fx:id="txtdiscount" layoutX="148.0" layoutY="518.0" prefHeight="30.0" prefWidth="150.0" promptText="Enter discount" styleClass="custom-textfeild1" />
                <Label layoutX="146.0" layoutY="638.0" prefHeight="16.0" prefWidth="98.0" styleClass="custom-lables" text="Discount          = " />
                <Label fx:id="lbldiscount" layoutX="269.0" layoutY="637.0" styleClass="custom-lables" text="0.0" />
-               <Button fx:id="remove_discount" layoutX="286.0" layoutY="453.0" mnemonicParsing="false" onAction="#click_remove_discount" prefHeight="25.0" prefWidth="57.0" text="remove" visible="false" />
                <Label fx:id="lblre_balance" layoutX="146.0" layoutY="481.0" prefHeight="17.0" prefWidth="98.0" styleClass="custom-lables" text="re . balance     =" />
                <Label fx:id="lbl_re_balance" layoutX="267.0" layoutY="483.0" styleClass="custom-lables" text="0.0" />
             </children>

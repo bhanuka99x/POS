@@ -2,6 +2,9 @@ package com.posapp.controllers;
 
 import com.posapp.dbconnection.dbconn;
 import com.posapp.receipt.ReceiptGenerator;
+import com.posapp.util.Alerts;
+
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.scene.control.ProgressIndicator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,29 +29,11 @@ import java.util.Optional;
 public class OperatorDashboardController {
 
     // FXML fields
-    @FXML private Button btncustomers, btninventory, btnlogout, btnmenu, btnorders, btnreports;
-    @FXML private Label txtlbl, lbltotal, lbltax, subtotal, lblamount, lbldiscount,txtName,lbl_re_balance;
+    @FXML private Button btncustomers, btninventory, btnlogout, btnmenu, btnorders, btnreports,btnope;
+    @FXML private Label txtlbl, lbltotal, lbltax, subtotal, lblamount, lbldiscount,txtName,lbl_re_balance,lblre_balance;
     @FXML private TextField txtamount, txtdiscount;
-    @FXML private ComboBox<String> cmb_payment_method;
-
-    // Product Table
-    @FXML private TableView<Product> tbl_product_display;
-    @FXML private TableColumn<Product, String> product_name;
-    @FXML private TableColumn<Product, Double> price;
-    @FXML private TableColumn<Product, Image> product_image;
-    @FXML private TableColumn<Product, Integer> add_quantity;
-    @FXML private TableColumn<Product, Void> action;
-
-    private final ObservableList<Product> productList = FXCollections.observableArrayList();
-
-    // Receipt Table
-    @FXML private TableView<ReceiptItem> tbl_receipt;
-    @FXML private TableColumn<ReceiptItem, String> receipt_product_name;
-    @FXML private TableColumn<ReceiptItem, Integer> receipt_quantity;
-    @FXML private TableColumn<ReceiptItem, Double> receipt_price;
-    @FXML private TableColumn<ReceiptItem, Void> re_action;
-
-    private final ObservableList<ReceiptItem> receiptList = FXCollections.observableArrayList();
+     @FXML private ComboBox<String> cmb_payment_method;
+     @FXML private ProgressIndicator progressindicator;
 
 
     public void initialize() {
@@ -56,9 +43,7 @@ public class OperatorDashboardController {
         configureReceiptTable();
         configurePaymentLogic();
 
-        txtdiscount.setOnAction(e -> totalprice());
         txtamount.setOnAction(  e -> totalprice());
-
         txtamount.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case BACK_SPACE:
@@ -73,8 +58,7 @@ public class OperatorDashboardController {
             }
         });
 
-
-
+        txtdiscount.setOnAction(e -> totalprice());
         txtdiscount.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case BACK_SPACE:
@@ -88,7 +72,6 @@ public class OperatorDashboardController {
                     break;
             }
         });
-
     }
 
     private void configurePaymentLogic() {
@@ -96,10 +79,14 @@ public class OperatorDashboardController {
             if ("Card".equals(cmb_payment_method.getValue())) {
                 txtamount.setDisable(true);
                 lblamount.setDisable(true);
+                lblre_balance.setDisable(true);
+                lbl_re_balance.setDisable(true);
 
             } else {
                 txtamount.setDisable(false);
                 lblamount.setDisable(false);
+                lblre_balance.setDisable(false);
+                lbl_re_balance.setDisable(false);
             }
         });
     }
@@ -116,7 +103,6 @@ public class OperatorDashboardController {
         double taxRate = 0.15;
         calculatedTax = total * taxRate;
         calculatedSubTotal = total + calculatedTax;
-
 
         lbltotal.setText(String.format("$%.2f ", total));
         lbltax.setText(String.format("$%.2f ", calculatedTax));
@@ -145,15 +131,14 @@ public class OperatorDashboardController {
     public void click_pay(ActionEvent event) {
         String paymentOption = cmb_payment_method.getValue();
         if (paymentOption == null) {
-            showAlert("Payment Error", "Please select a payment method.");
+          Alerts.showError("Error","Please select a payment method ");
             return;
         }
 
         if (receiptList.isEmpty()) {
-            showAlert("Receipt Error", "Receipt is empty.");
+            Alerts.showError("Error","Receipt is empty");
             return;
         }
-
         totalprice();
 
         try (Connection conn = dbconn.connect()) {
@@ -163,7 +148,6 @@ public class OperatorDashboardController {
         """;
 
             PreparedStatement stmt = conn.prepareStatement(sql);
-
             stmt.setString(1, paymentOption);
             stmt.setDouble(2, calculatedSubTotal);
             stmt.setDouble(3, calculatedTax);
@@ -184,17 +168,11 @@ public class OperatorDashboardController {
                         updateStmt.executeUpdate();
                     } catch (SQLException e) {
                         e.printStackTrace();
-                        showAlert("Inventory Error", "Error updating inventory for " + item.getProductName());
+                        Alerts.showError("Error","Error updating inventory for " + item.getProductName());
                     }
                 }
 
-                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-                confirm.setTitle("Generate Receipt");
-                confirm.setHeaderText("Do you want to generate a receipt?");
-                confirm.setContentText("Click OK to generate the receipt, or Cancel to skip.");
-
-                Optional<ButtonType> result = confirm.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (Alerts.showconfirmation("Generate Receipt","Do you want to generate a receipt?","Click OK to generate the receipt, or Cancel to skip.")) {
                     ReceiptGenerator.generateReceipt(
                             receiptList,
                             calculatedSubTotal,
@@ -205,87 +183,33 @@ public class OperatorDashboardController {
                     );
                 }
 
-                showAlert("Success", "Payment recorded successfully!");
+                Alerts.showSuccess("Success","Payment recorded successfully!");
                 receiptList.clear();
                 totalprice();
                 txtdiscount.clear();
                 cmb_payment_method.getSelectionModel().clearSelection();
                 txtamount.clear();
             } else {
-                showAlert("Database Error", "Failed to record payment.");
+                Alerts.showError("Error","Failed to record payment.");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert("Exception", "Error inserting payment: " + e.getMessage());
+            Alerts.showError("Error","Error inserting payment: " + e.getMessage());
         }
     }
-
-
-
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    public void click_add_discount(ActionEvent event) {
-    }
-
-    public void click_remove_discount(ActionEvent event) {
-    }
-
 
     // ------------ Product & Receipt Logic (No Changes) ------------
 
-    public static class Product {
-        private final int id;
-        private final String name;
-        private final int quantity;
-        private final double price;
-        private final Image image;
-        private final Spinner<Integer> spinner;
+    // Product Table
+    @FXML private TableView<Product> tbl_product_display;
+    @FXML private TableColumn<Product, String> product_name;
+    @FXML private TableColumn<Product, Double> price;
+    @FXML private TableColumn<Product, Image> product_image;
+    @FXML private TableColumn<Product, Integer> add_quantity;
+    @FXML private TableColumn<Product, Void> action;
 
-        public Product(int id, String name, int quantity, double price, Image image) {
-            this.id = id;
-            this.name = name;
-            this.quantity = quantity;
-            this.price = price;
-            this.image = image;
-            this.spinner = new Spinner<>(1, quantity, 1);
-            this.spinner.setEditable(true);
-        }
-
-        public int getId() { return id; }
-        public String getName() { return name; }
-        public int getQuantity() { return quantity; }
-        public double getPrice() { return price; }
-        public Image getImage() { return image; }
-        public Spinner<Integer> getSpinner() { return spinner; }
-    }
-
-    public static class ReceiptItem {
-        private final String productName;
-        private final int quantity;
-        private final double price;
-
-        public ReceiptItem(String productName, int quantity, double price) {
-            this.productName = productName;
-            this.quantity = quantity;
-            this.price = price;
-        }
-
-        public String getProductName() { return productName; }
-        public int getQuantity() { return quantity; }
-        public double getPrice() { return price; }
-
-        @Override
-        public String toString() {
-            return String.format("'%s qty=%d'", productName, quantity);
-        }
-    }
+    private final ObservableList<Product> productList = FXCollections.observableArrayList();
 
     private void configureProductTable() {
         product_name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -342,6 +266,62 @@ public class OperatorDashboardController {
         tbl_product_display.setItems(productList);
     }
 
+    public static class Product {
+        private final int id;
+        private final String name;
+        private final int quantity;
+        private final double price;
+        private final Image image;
+        private final Spinner<Integer> spinner;
+
+        public Product(int id, String name, int quantity, double price, Image image) {
+            this.id = id;
+            this.name = name;
+            this.quantity = quantity;
+            this.price = price;
+            this.image = image;
+            this.spinner = new Spinner<>(1, quantity, 1);
+            this.spinner.setEditable(true);
+        }
+
+        public int getId() { return id; }
+        public String getName() { return name; }
+        public int getQuantity() { return quantity; }
+        public double getPrice() { return price; }
+        public Image getImage() { return image; }
+        public Spinner<Integer> getSpinner() { return spinner; }
+    }
+
+    // Receipt Table
+    @FXML private TableView<ReceiptItem> tbl_receipt;
+    @FXML private TableColumn<ReceiptItem, String> receipt_product_name;
+    @FXML private TableColumn<ReceiptItem, Integer> receipt_quantity;
+    @FXML private TableColumn<ReceiptItem, Double> receipt_price;
+    @FXML private TableColumn<ReceiptItem, Void> re_action;
+
+    private final ObservableList<ReceiptItem> receiptList = FXCollections.observableArrayList();
+
+    public static class ReceiptItem {
+        private final String productName;
+        private final int quantity;
+        private final double price;
+
+        public ReceiptItem(String productName, int quantity, double price) {
+            this.productName = productName;
+            this.quantity = quantity;
+            this.price = price;
+        }
+
+        public String getProductName() { return productName; }
+        public int getQuantity() { return quantity; }
+        public double getPrice() { return price; }
+
+        @Override
+        public String toString() {
+            return String.format("'%s qty=%d'", productName, quantity);
+        }
+    }
+
     private void configureReceiptTable() {
         receipt_product_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
         receipt_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
@@ -396,35 +376,34 @@ public class OperatorDashboardController {
         }
     }
 
+
     private String userRole;
     private String operator;
-    public void setUserRole(String role) {
+    public void setUserRole(String role,String operator) {
         this.userRole = role;
+        this.operator =operator;
         configureDashboard();
     }
-    public void setName(String operatorname){
-        this.operator = operatorname;
-        configureDashboard();
-    }
-
 
     private void configureDashboard() {
         if ("admin".equals(userRole)) {
-            btnmenu.setVisible(true);
-            btncustomers.setVisible(true);
-            btninventory.setVisible(true);
-            btnorders.setVisible(true);
-            btnreports.setVisible(true);
-            btnlogout.setVisible(true);
+            btnmenu.setDisable(false);
+            btncustomers.setDisable(false);
+            btninventory.setDisable(false);
+            btnorders.setDisable(false);
+            btnreports.setDisable(false);
+            btnlogout.setDisable(false);
+            btnope.setDisable(false);
             txtlbl.setText(userRole);
             txtName.setText(operator);
         } else if ("operator".equals(userRole)) {
-            btnmenu.setVisible(true);
-            btninventory.setVisible(true);
-            btncustomers.setVisible(true);
-            btnorders.setVisible(false);
-            btnreports.setVisible(false);
-            btnlogout.setVisible(true);
+            btnmenu.setDisable(false);
+            btncustomers.setDisable(false);
+            btninventory.setDisable(false);
+            btnorders.setDisable(true);
+            btnreports.setDisable(true);
+            btnope.setDisable(true);
+            btnlogout.setDisable(false);
             txtlbl.setText(userRole);
             txtName.setText(operator);
         }
@@ -432,65 +411,111 @@ public class OperatorDashboardController {
 
 
     public void clickmenu(ActionEvent event) throws IOException {
+        clickmenu(userRole,operator);
+    }
+    @FXML
+    public void clickmenu(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        OperatorDashboardController operatorDashboardController = loader.getController();
+        operatorDashboardController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
+
     public void clickinventory(ActionEvent event) throws IOException {
+        clickinventory(userRole,operator);
+    }
+    @FXML
+    public void clickinventory(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_inventory.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        InventoryManagementController inventoryManagementController = loader.getController();
+        inventoryManagementController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
+
     public void clickcustomers(ActionEvent event) throws IOException {
+        clickcustomers(userRole,operator);
+    }
+    public void clickcustomers(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_customers.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        CustomerManagementController customerManagementController = loader.getController();
+        customerManagementController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
     public void clickorders(ActionEvent event) throws IOException {
+        clickorders(userRole,operator);
+    }
+    public void clickorders(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_orders.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        OrderManagementController orderManagementController = loader.getController();
+        orderManagementController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
     public void clickreports(ActionEvent event) throws IOException {
+       clickreports(userRole,operator);
+    }
+    public void clickreports(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_report.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        ReportsAnalyticsController reportsAnalyticsController = loader.getController();
+        reportsAnalyticsController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
     public void clickope(ActionEvent event) throws IOException {
+          clickope(userRole,operator);
+    }
+    public void clickope(String role,String operator) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/dashboard_screen_operator.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setMaximized(true);
+        AdminDashboardController adminDashboardController = loader.getController();
+        adminDashboardController.setUserRole(role,operator);
         stage.show();
         Stage currentstage = (Stage)txtlbl.getScene().getWindow();
         currentstage.close();
     }
-    public void clicklogout(ActionEvent event) {}
+    public void clicklogout(ActionEvent event) throws IOException {
 
+         if (Alerts.showconfirmation("Exit","","Are you sure you want to logout?")){
+             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/posapp/views/login_screen.fxml"));
+             Scene loginscene = new Scene(loader.load());
+             Stage loginstage = new Stage();
+             loginstage.setScene(loginscene);
+             loginstage.initStyle(StageStyle.UNDECORATED);
+             loginscene.getStylesheets().add(getClass().getResource("/com/posapp/css/Application.css").toExternalForm());
+             Stage currentstage = (Stage)txtlbl.getScene().getWindow();
+             currentstage.close();
+             loginstage.show();
+         }
+    }
 }

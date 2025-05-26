@@ -23,12 +23,6 @@ public class LoadingScreenController extends LoginScreenController {
     public void initialize() {
         new Thread(() -> {
             try {
-                updateStatus("Checking internet connection...");
-                Thread.sleep(2000);
-                if (!checkInternetConnection()) {
-                    updateStatus("No internet connection.");
-                    return;
-                }
                 updateStatus("Connecting to Schema...");
                 Thread.sleep(1000);
                 if (!checkDatabaseConnection()) {
@@ -46,14 +40,6 @@ public class LoadingScreenController extends LoginScreenController {
         }).start();
     }
 
-    private boolean checkInternetConnection() {
-        try (Socket socket = new Socket()) {
-            socket.connect(new InetSocketAddress("8.8.8.8", 53), 1500); 
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
-    }
     private boolean checkDatabaseConnection() {
         try (Connection conn = dbconn.connect()) {
             return conn != null;
@@ -61,6 +47,7 @@ public class LoadingScreenController extends LoginScreenController {
             return false;
         }
     }
+    
     private void updateStatus(String message) {
         Platform.runLater(() -> lblStatus.setText(message));
     }
