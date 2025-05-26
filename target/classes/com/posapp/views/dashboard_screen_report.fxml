@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.ReportsAnalyticsController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" styleClass="background" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.ReportsAnalyticsController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background">
          <children>
@@ -54,7 +54,7 @@
                  </image>
              </ImageView>
              <Label fx:id="txtlbl" layoutX="26.0" layoutY="142.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
-             <Label fx:id="txtName" layoutX="90.0" layoutY="150.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
+             <Label fx:id="txtName" layoutX="90.0" layoutY="148.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
             <AnchorPane layoutX="175.0" prefHeight="379.0" prefWidth="335.0" style="-fx-background-color: #DA6C6C;" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="890.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="29.0" layoutY="105.0" prefHeight="26.0" prefWidth="176.0" styleClass="sales-labels" text="Total Income            =" />
@@ -91,6 +91,7 @@
                   <Label layoutX="13.0" layoutY="85.0" styleClass="sales-labels" text="best selling product" />
                </children>
             </AnchorPane>
+            <Label layoutX="69.0" layoutY="148.0" styleClass="txtlbl" text=":" />
          </children></AnchorPane>
    </children>
 </StackPane>

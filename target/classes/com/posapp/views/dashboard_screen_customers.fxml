@@ -56,7 +56,7 @@
                </image>
             </ImageView>
             <Label fx:id="txtlbl" layoutX="26.0" layoutY="142.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
-            <Label fx:id="txtName" layoutX="90.0" layoutY="150.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
+            <Label fx:id="txtName" layoutX="90.0" layoutY="149.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
             <TableView fx:id="tablecustomers" layoutX="165.0" layoutY="2.0" prefHeight="800.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="0.0">
               <columns>
                   <TableColumn fx:id="cell_checkbox" prefWidth="45.66667175292969" />
@@ -69,12 +69,13 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <TextField fx:id="txtmobilenumber" layoutX="886.0" layoutY="54.0" prefHeight="41.0" prefWidth="253.0" promptText="Mobile Number" />
+            <TextField fx:id="txtmobilenumber" layoutX="886.0" layoutY="54.0" prefHeight="41.0" prefWidth="253.0" promptText="Mobile Number" styleClass="custom-textfeild1" />
             <Label layoutX="680.0" layoutY="60.0" styleClass="sales-labels" text="Customer mobile number" />
             <Button fx:id="btnadd" layoutX="890.0" layoutY="127.0" mnemonicParsing="false" onAction="#clickadd" styleClass="custom-btnadd" text="Add" />
             <Button fx:id="btnedit" layoutX="1036.0" layoutY="126.0" mnemonicParsing="false" onAction="#clickedit" styleClass="custom-btnadd" text="edit" />
-            <TextArea fx:id="txtmessage" layoutX="703.0" layoutY="203.0" prefHeight="279.0" prefWidth="436.0" promptText="Type Message Here" />
+            <TextArea fx:id="txtmessage" layoutX="703.0" layoutY="203.0" prefHeight="279.0" prefWidth="436.0" promptText="Type Message Here" styleClass="custom-textfeild1" />
             <Button fx:id="btnsend" layoutX="1041.0" layoutY="515.0" mnemonicParsing="false" onAction="#clicksend" styleClass="custom-btnadd" text="Send" />
+            <Label layoutX="68.0" layoutY="150.0" styleClass="txtlbl" text=":" />
          </children></AnchorPane>
    </children>
 </StackPane>

@@ -23,7 +23,7 @@
     -fx-background-color: #40a153;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-font-family:Calibri;
+    -fx-font-family:"Arial";
     -fx-font-size:15px;
     -fx-pref-width: 100px;
     -fx-pref-height: 30px;
@@ -45,7 +45,7 @@
     -fx-padding: 3px;
 }
 .background{
-    -fx-background-color: #FFF2EB;
+    -fx-background-color: #ffede3;
 }
 .header-lable{
     -fx-font-size: 25px;
@@ -109,6 +109,7 @@
     -fx-background-insets: 0;
 
 }
+
 .custom-textfeild1{
     -fx-font-family: Arial;
     -fx-font-weight: bold;
@@ -119,7 +120,7 @@
 }
 /* table */
 .table-view{
-    -fx-background-color: #F8EEDF;
+    -fx-background-color: #ffe3ad;
    -fx-border-width: none;
 
 }
@@ -128,7 +129,7 @@
 
 }
 .table-view .column-header{
-    -fx-background-color: #ffeed0;
+    -fx-background-color: #ffeec3;
     -fx-font-size: 13px;
     -fx-font-family: Calibri;
 

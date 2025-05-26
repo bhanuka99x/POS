@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.OrderManagementController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" styleClass="background" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.OrderManagementController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -55,7 +55,7 @@
                  </image>
              </ImageView>
              <Label fx:id="txtlbl" layoutX="26.0" layoutY="142.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
-             <Label fx:id="txtName" layoutX="90.0" layoutY="150.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
+             <Label fx:id="txtName" layoutX="90.0" layoutY="149.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
             <TableView fx:id="payment_record" layoutX="216.0" layoutY="128.0" prefHeight="673.0" prefWidth="1236.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="0.0">
               <columns>
                   <TableColumn fx:id="cell_payment_id" prefWidth="56.99998474121094" text="ID" />
@@ -73,8 +73,9 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <TextField fx:id="txtsearch" layoutX="192.0" layoutY="63.0" prefHeight="37.0" prefWidth="226.0" promptText="Search ID" AnchorPane.leftAnchor="192.0" />
+            <TextField fx:id="txtsearch" layoutX="192.0" layoutY="63.0" prefHeight="37.0" prefWidth="226.0" promptText="Search ID" styleClass="custom-textfeild1" AnchorPane.leftAnchor="192.0" />
             <Button fx:id="btnsearch" layoutX="435.0" layoutY="66.0" mnemonicParsing="false" onAction="#clicksearch" styleClass="custom-btnadd" text="Search" AnchorPane.leftAnchor="435.0" />
+            <Label layoutX="70.0" layoutY="149.0" styleClass="txtlbl" text=":" />
          </children></AnchorPane>
    </children>
 </StackPane>

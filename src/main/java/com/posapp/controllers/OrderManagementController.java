@@ -173,25 +173,47 @@ public class OrderManagementController {
 
 
 
-    @FXML void clicksearch(ActionEvent event) {
+    @FXML
+    void clicksearch(ActionEvent event) {
         String input = txtsearch.getText();
         if (input == null || input.trim().isEmpty()) {
+            Alerts.showError("Error", "Please enter a Payment ID.");
             return;
         }
+
+        int searchId;
         try {
-            int searchId = Integer.parseInt(input.trim());
-            for (PaymentItem item : PaymentList) {
-                if (item.getId() == searchId) {
-                    payment_record.getSelectionModel().select(item);
-                    payment_record.scrollTo(item);
-                    break;
-                }
-            }
+            searchId = Integer.parseInt(input.trim());
         } catch (NumberFormatException e) {
+            Alerts.showError("Error", "Invalid ID format");
+            return;
+        }
+
+        String checksql = "SELECT * FROM payments WHERE payment_id = ?";
+        try (Connection conn = dbconn.connect();
+             PreparedStatement checkStmt = conn.prepareStatement(checksql)) {
+
+            checkStmt.setInt(1, searchId);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                for (PaymentItem item : PaymentList) {
+                    if (item.getId() == searchId) {
+                        payment_record.getSelectionModel().select(item);
+                        payment_record.scrollTo(item);
+                        break;
+                    }
+                }
+            } else {
+                Alerts.showError("Error", "Payment ID not found");
+            }
+
+        } catch (SQLException e) {
             e.printStackTrace();
-            Alerts.showError("Error","Invalid ID format");
+            Alerts.showError("Error", "Error accessing payment records");
         }
     }
+
     private String userRole;
     private String operator;
     public void setUserRole(String role,String operator) {

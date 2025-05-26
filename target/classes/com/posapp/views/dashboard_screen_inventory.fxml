@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.InventoryManagementController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" styleClass="background" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.InventoryManagementController">
     <children>
         <AnchorPane prefHeight="629.0" prefWidth="600.0">
             <VBox alignment="CENTER" layoutX="23.0" layoutY="39.0" prefHeight="600.0" prefWidth="165.0" spacing="25.0" styleClass="custom-pannel" stylesheets="@../css/Application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0">
@@ -55,14 +55,14 @@
                 </image>
             </ImageView>
             <Label fx:id="txtlbl" layoutX="24.0" layoutY="143.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
-            <Label fx:id="txtName" layoutX="90.0" layoutY="150.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
-         <ImageView fx:id="imageview" fitHeight="187.0" fitWidth="187.0" layoutX="233.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" styleClass="image-border" AnchorPane.leftAnchor="233.0" AnchorPane.rightAnchor="980.0" />
-         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="200.0" layoutX="226.0" layoutY="393.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="200.0" />
-         <Button fx:id="btnupload" layoutX="273.0" layoutY="617.0" mnemonicParsing="false" onAction="#clickupload" prefWidth="124.0" styleClass="custom-btnadd" text="upload image" />
-         <TextField fx:id="txtprice" layoutX="296.0" layoutY="254.0" prefHeight="35.0" prefWidth="200.0" promptText="Price" AnchorPane.leftAnchor="296.0" />
-         <TextField fx:id="txtquantity" layoutX="298.0" layoutY="314.0" prefHeight="35.0" prefWidth="150.0" promptText="quantity" />
-         <Button fx:id="btnadd" layoutX="184.0" layoutY="702.0" mnemonicParsing="false" onAction="#clickadd" styleClass="custom-btnadd" text="add" />
-         <Button fx:id="btnupdate" layoutX="293.0" layoutY="702.0" mnemonicParsing="false" onAction="#clickupdate" styleClass="custom-btnadd" text="update" />
+            <Label fx:id="txtName" layoutX="90.0" layoutY="151.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
+         <ImageView fx:id="imageview" fitHeight="189.0" fitWidth="189.0" layoutX="236.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" styleClass="image-border" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="975.0" />
+         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="200.0" layoutX="230.0" layoutY="237.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="200.0" />
+         <Button fx:id="btnupload" layoutX="280.0" layoutY="458.0" mnemonicParsing="false" onAction="#clickupload" prefWidth="122.0" styleClass="custom-btnadd" text="upload image" />
+         <TextField fx:id="txtprice" layoutX="297.0" layoutY="96.0" prefHeight="35.0" prefWidth="200.0" promptText="Price" styleClass="custom-textfeild1" AnchorPane.leftAnchor="297.0" />
+         <TextField fx:id="txtquantity" layoutX="298.0" layoutY="156.0" prefHeight="35.0" prefWidth="150.0" promptText="quantity" styleClass="custom-textfeild1" />
+         <Button fx:id="btnadd" layoutX="205.0" layoutY="535.0" mnemonicParsing="false" onAction="#clickadd" styleClass="custom-btnadd" text="add" />
+         <Button fx:id="btnupdate" layoutX="350.0" layoutY="535.0" mnemonicParsing="false" onAction="#clickupdate" styleClass="custom-btnadd" text="update" />
          <TableView fx:id="tblinventory" layoutX="506.0" layoutY="1.0" prefHeight="799.0" prefWidth="893.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
            <columns>
              <TableColumn fx:id="imagecell" prefWidth="256.0" text="Image" />
@@ -75,11 +75,11 @@
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
          </TableView>
-         <Label layoutX="67.0" layoutY="149.0" styleClass="txtlbl" text=":" />
-         <Label layoutX="201.0" layoutY="204.0" prefHeight="17.0" prefWidth="75.0" styleClass="txtlbl" text="Item Name" AnchorPane.leftAnchor="201.0" AnchorPane.rightAnchor="1124.0" />
-         <Label layoutX="199.0" layoutY="262.0" styleClass="txtlbl" text="Item Price" />
-         <Label layoutX="200.0" layoutY="322.0" styleClass="txtlbl" text="Item Quantity" />
-         <TextField fx:id="txtname" layoutX="296.0" layoutY="198.0" prefHeight="35.0" prefWidth="200.0" promptText="Name" />
+         <Label layoutX="67.0" layoutY="150.0" styleClass="txtlbl" text=":" />
+         <Label layoutX="202.0" layoutY="46.0" prefHeight="17.0" prefWidth="75.0" styleClass="txtlbl" text="Item Name" AnchorPane.leftAnchor="202.0" AnchorPane.rightAnchor="1123.0" />
+         <Label layoutX="199.0" layoutY="104.0" styleClass="txtlbl" text="Item Price" />
+         <Label layoutX="200.0" layoutY="164.0" styleClass="txtlbl" text="Item Quantity" />
+         <TextField fx:id="txtname" layoutX="296.0" layoutY="40.0" prefHeight="35.0" prefWidth="200.0" promptText="Name" styleClass="custom-textfeild1" />
         </AnchorPane>
     </children>
 </StackPane>

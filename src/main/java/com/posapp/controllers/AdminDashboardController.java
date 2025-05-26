@@ -154,45 +154,91 @@ public class AdminDashboardController {
         }
    }
 
-   @FXML
-   public void clickadd(ActionEvent event){
+    @FXML
+    public void clickadd(ActionEvent event) {
+        String username = txtusername.getText().trim();
+        String password = txtpassword.getText().trim();
+        String role = cmbrole.getValue();
+
+        if (username.isEmpty() || password.isEmpty() || role == null) {
+            Alerts.showError("Error","Please fill in all fields");
+            return;
+        }
+
+        String checkSql = "SELECT * FROM users WHERE user_name = ?";
+        try (Connection conn = dbconn.connect();
+             PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+             checkStmt.setString(1, username);
+             ResultSet rs = checkStmt.executeQuery();
+            if (rs.next()) {
+                Alerts.showError("Error", "Username already exists. Please choose another.");
+                return;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String insertSql = "INSERT INTO users(user_name, password_hash, role) VALUES (?, ?, ?)";
+        try (Connection conn = dbconn.connect();
+             PreparedStatement stmt = conn.prepareStatement(insertSql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            stmt.setString(3, role);
+            stmt.executeUpdate();
+            loaduser();
+            txtusername.clear();
+            txtpassword.clear();
+            cmbrole.setValue(null);
+            Alerts.showSuccess("Success", "User added successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    public void clickedit(ActionEvent event) {
+        if (selectedUser == null) return;
+
         String username = txtusername.getText();
         String password = txtpassword.getText();
         String role = cmbrole.getValue();
-        if(username.isEmpty() || password.isEmpty() || role == null) return;{
 
-            String sql = "INSERT INTO users(user_name,password_hash,role) VALUES(?,?,?)";
-            try(Connection conn = dbconn.connect();
-                 PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setString(1,username);
-                stmt.setString(2,password);
-                stmt.setString(3,role);
-                stmt.executeUpdate();
-                loaduser();
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
+        if (username.isEmpty() || password.isEmpty() || role == null) {
+            Alerts.showError("Error", "All fields are required.");
+            return;
         }
-   }
 
-    public void clickedit(ActionEvent event) {
-        if(selectedUser == null)return;{
-            String username = txtusername.getText();
-            String password = txtpassword.getText();
-            String role = cmbrole.getValue();
+        String duplicateCheck = "SELECT * FROM users WHERE (user_name = ? OR password_hash = ?) AND user_id != ?";
+        try (Connection conn = dbconn.connect();
+             PreparedStatement checkStmt = conn.prepareStatement(duplicateCheck)) {
 
-            String sql = "UPDATE users SET user_name = ?,password_hash = ?, role = ? WHERE user_id=?";
-            try(Connection conn = dbconn.connect();
-                PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setString(1,username);
-                stmt.setString(2,password);
-                stmt.setString(3,role);
-                stmt.setInt(4,selectedUser.getId());
-                stmt.executeUpdate();
-                loaduser();
-            }catch (SQLException e){
-                e.printStackTrace();
+            checkStmt.setString(1, username);
+            checkStmt.setString(2, password);
+            checkStmt.setInt(3, selectedUser.getId());
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                Alerts.showError("Error", "Username or Password already exists.");
+                return;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String sql = "UPDATE users SET user_name = ?, password_hash = ?, role = ? WHERE user_id = ?";
+        try (Connection conn = dbconn.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            stmt.setString(3, role);
+            stmt.setInt(4, selectedUser.getId());
+            stmt.executeUpdate();
+
+            loaduser();
+            Alerts.showSuccess("Success", "User updated successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

@@ -142,12 +142,13 @@ public class OperatorDashboardController {
         totalprice();
 
         try (Connection conn = dbconn.connect()) {
-            String sql = """
-        INSERT INTO payments (payment_option, sub_total, tax, discount, total, payment_date, payment_time,taken_items)
-        VALUES (?, ?, ?, ?, ?, ?, ?,?)
-        """;
+            int paymentId = -1; // Default if something fails
 
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            String sql = """
+    INSERT INTO payments (payment_option, sub_total, tax, discount, total, payment_date, payment_time, taken_items)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""";
+
+            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, paymentOption);
             stmt.setDouble(2, calculatedSubTotal);
             stmt.setDouble(3, calculatedTax);
@@ -159,6 +160,10 @@ public class OperatorDashboardController {
 
             int rows = stmt.executeUpdate();
             if (rows > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    paymentId = rs.getInt(1); // Store the generated payment_id
+                }
 
                 for (ReceiptItem item : receiptList) {
                     String updateInventorySql = "UPDATE inventory SET quantity = quantity - ? WHERE item_name = ?";
@@ -168,29 +173,31 @@ public class OperatorDashboardController {
                         updateStmt.executeUpdate();
                     } catch (SQLException e) {
                         e.printStackTrace();
-                        Alerts.showError("Error","Error updating inventory for " + item.getProductName());
+                        Alerts.showError("Error", "Error updating inventory for " + item.getProductName());
                     }
                 }
 
-                if (Alerts.showconfirmation("Generate Receipt","Do you want to generate a receipt?","Click OK to generate the receipt, or Cancel to skip.")) {
+                // Ask to generate receipt with paymentId
+                if (Alerts.showconfirmation("Generate Receipt", "Do you want to generate a receipt?", "Click OK to generate the receipt, or Cancel to skip.")) {
                     ReceiptGenerator.generateReceipt(
                             receiptList,
                             calculatedSubTotal,
                             calculatedTax,
                             calculatedDiscount,
                             calculatedTotal,
-                            paymentOption
+                            paymentOption,
+                            paymentId // Pass the ID here
                     );
                 }
 
-                Alerts.showSuccess("Success","Payment recorded successfully!");
+                Alerts.showSuccess("Success", "Payment recorded successfully!");
                 receiptList.clear();
                 totalprice();
                 txtdiscount.clear();
                 cmb_payment_method.getSelectionModel().clearSelection();
                 txtamount.clear();
             } else {
-                Alerts.showError("Error","Failed to record payment.");
+                Alerts.showError("Error", "Failed to record payment.");
             }
 
         } catch (SQLException e) {

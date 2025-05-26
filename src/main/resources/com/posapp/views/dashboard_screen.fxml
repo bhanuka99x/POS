@@ -68,7 +68,7 @@
          </ImageView>
          <Label fx:id="txtlbl" layoutX="31.0" layoutY="142.0" prefHeight="29.0" prefWidth="57.0" styleClass="txtname" text="who" />
          <Label fx:id="txtName" layoutX="93.0" layoutY="149.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
-         <Label layoutX="79.0" layoutY="149.0" styleClass="txtname" text=":" />
+         <Label layoutX="71.0" layoutY="149.0" styleClass="txtname" text=":" />
          <AnchorPane layoutX="943.0" prefHeight="800.0" prefWidth="442.0" styleClass="custom-pannel" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                <TableView fx:id="tbl_receipt" layoutX="6.0" prefHeight="349.0" prefWidth="431.0">
