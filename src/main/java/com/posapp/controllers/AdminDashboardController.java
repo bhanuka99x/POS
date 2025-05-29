@@ -92,21 +92,23 @@ public class AdminDashboardController {
         cell_action.setCellFactory(e->new TableCell<>(){
             private final Button removebutton = new Button("Remove");
             {
-                removebutton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 80px;-fx-pref-height: 30px;");
+                removebutton.setStyle("-fx-background-color: #fd6f6f; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 80px;-fx-pref-height: 30px;");
                 removebutton.setOnAction(actionEvent -> {
-                    UserRow item = getTableView().getItems().get(getIndex());
-                    if (item == null) return;
+                    if (Alerts.showconfirmation("Delete", "", "Are You sure you want to delete this user ? ")) {
+                        UserRow item = getTableView().getItems().get(getIndex());
+                        if (item == null) return;
 
-                    try (Connection conn = dbconn.connect()) {
-                        String sql = "DELETE FROM users WHERE user_id = ?";
-                        PreparedStatement stmt = conn.prepareStatement(sql);
-                        stmt.setInt(1, item.getId());
-                        int rowsAffected = stmt.executeUpdate();
-                        if (rowsAffected > 0) {
-                            userList.remove(item);
+                        try (Connection conn = dbconn.connect()) {
+                            String sql = "DELETE FROM users WHERE user_id = ?";
+                            PreparedStatement stmt = conn.prepareStatement(sql);
+                            stmt.setInt(1, item.getId());
+                            int rowsAffected = stmt.executeUpdate();
+                            if (rowsAffected > 0) {
+                                userList.remove(item);
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
                     }
                 });
             }

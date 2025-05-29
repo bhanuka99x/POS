@@ -17,7 +17,7 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background">
          <children>
-             <VBox alignment="CENTER" layoutX="-1.0" prefHeight="600.0" prefWidth="165.0" spacing="25.0" styleClass="custom-pannel" stylesheets="@../css/Application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0">
+             <VBox alignment="CENTER" layoutX="-1.0" prefHeight="600.0" prefWidth="280.0" spacing="25.0" styleClass="custom-pannel" stylesheets="@../css/Application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0">
                  <children>
                      <Button fx:id="btnmenu" mnemonicParsing="false" onAction="#clickmenu" prefHeight="40.0" prefWidth="130.0" styleClass="custom-btndash" text="Menu">
                          <cursor>
@@ -45,22 +45,22 @@
                          </cursor></Button>
                  </children>
              </VBox>
-             <Button fx:id="btnlogout" layoutX="30.0" layoutY="700.0" mnemonicParsing="false" onAction="#clicklogout" styleClass="custom-exit" text="Log out">
+             <Button fx:id="btnlogout" layoutX="87.0" layoutY="700.0" mnemonicParsing="false" onAction="#clicklogout" styleClass="custom-exit" text="Log out">
                  <cursor>
                      <Cursor fx:constant="HAND" />
                  </cursor>
              </Button>
-             <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="40.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="40.0">
+             <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="103.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="103.0">
                  <image>
                      <Image url="@../assets/logo/pos.me%20dashboard.png" />
                  </image>
              </ImageView>
-             <Label fx:id="txtlbl" layoutX="26.0" layoutY="142.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
-             <Label fx:id="txtName" layoutX="90.0" layoutY="149.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
-            <TextField fx:id="txtusername" layoutX="295.0" layoutY="62.0" prefHeight="35.0" prefWidth="180.0" promptText="Username" styleClass="custom-textfeild1" />
-            <TextField fx:id="txtpassword" layoutX="294.0" layoutY="140.0" prefHeight="35.0" prefWidth="180.0" promptText="Password" styleClass="custom-textfeild1" />
-            <ComboBox fx:id="cmbrole" layoutX="296.0" layoutY="213.0" prefHeight="35.0" prefWidth="180.0" promptText="Role" styleClass="cmb_payment_method" />
-            <TableView fx:id="tblusers" editable="true" layoutX="697.0" layoutY="62.0" prefHeight="479.0" prefWidth="645.0" AnchorPane.bottomAnchor="259.0" AnchorPane.leftAnchor="697.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="62.0">
+             <Label fx:id="txtlbl" layoutX="88.0" layoutY="143.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
+             <Label fx:id="txtName" layoutX="155.0" layoutY="150.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
+            <TextField fx:id="txtusername" layoutX="407.0" layoutY="62.0" prefHeight="35.0" prefWidth="180.0" promptText="Username" styleClass="custom-textfeild1" />
+            <TextField fx:id="txtpassword" layoutX="406.0" layoutY="140.0" prefHeight="35.0" prefWidth="180.0" promptText="Password" styleClass="custom-textfeild1" />
+            <ComboBox fx:id="cmbrole" layoutX="408.0" layoutY="213.0" prefHeight="35.0" prefWidth="180.0" promptText="Role" styleClass="cmb_payment_method" />
+            <TableView fx:id="tblusers" editable="true" layoutX="755.0" layoutY="-1.0" prefHeight="800.0" prefWidth="645.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="755.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
               <columns>
                 <TableColumn fx:id="colUser" prefWidth="201.66665649414062" text="Username" />
                 <TableColumn fx:id="colPass" prefWidth="209.33334350585938" text="Password" />
@@ -71,12 +71,12 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button fx:id="btnadd" layoutX="516.0" layoutY="63.0" mnemonicParsing="false" onAction="#clickadd" prefHeight="30.0" prefWidth="135.0" styleClass="custom-btnadd" text="Add user" />
-            <Button fx:id="btnedit" layoutX="517.0" layoutY="142.0" mnemonicParsing="false" onAction="#clickedit" prefHeight="30.0" prefWidth="135.0" styleClass="custom-btnadd" text="Update" />
-            <Label layoutX="206.0" layoutY="66.0" styleClass="sales-labels" text="Name" />
-            <Label layoutX="203.0" layoutY="144.0" styleClass="sales-labels" text="Password" />
-            <Label layoutX="213.0" layoutY="218.0" styleClass="sales-labels" text="Role" />
-            <Label layoutX="71.0" layoutY="149.0" styleClass="txtlbl" text=":" />
+            <Button fx:id="btnadd" layoutX="628.0" layoutY="63.0" mnemonicParsing="false" onAction="#clickadd" prefHeight="30.0" prefWidth="135.0" styleClass="custom-btnadd" text="Add user" />
+            <Button fx:id="btnedit" layoutX="629.0" layoutY="142.0" mnemonicParsing="false" onAction="#clickedit" prefHeight="30.0" prefWidth="135.0" styleClass="custom-btnadd" text="Update" />
+            <Label layoutX="318.0" layoutY="66.0" styleClass="sales-labels" text="Name" />
+            <Label layoutX="315.0" layoutY="144.0" styleClass="sales-labels" text="Password" />
+            <Label layoutX="325.0" layoutY="218.0" styleClass="sales-labels" text="Role" />
+            <Label layoutX="134.0" layoutY="149.0" styleClass="txtlbl" text=":" />
          </children>
       </AnchorPane>
    </children>

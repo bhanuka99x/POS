@@ -77,7 +77,7 @@ public class OrderManagementController {
         cell_payment_action.setCellFactory(e->new TableCell<>(){
             private final Button removebutton = new Button("Remove");
             {
-                removebutton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 80px;-fx-pref-height: 30px;");
+                removebutton.setStyle("-fx-background-color: #fd6f6f; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 80px;-fx-pref-height: 30px;");
                 removebutton.setOnAction(actionEvent -> {
                     PaymentItem item = getTableView().getItems().get(getIndex());
                     if (item == null) return;

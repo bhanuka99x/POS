@@ -26,7 +26,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-public class OperatorDashboardController {
+public class
+
+ OperatorDashboardController {
 
     // FXML fields
     @FXML private Button btncustomers, btninventory, btnlogout, btnmenu, btnorders, btnreports,btnope;
@@ -254,7 +256,7 @@ public class OperatorDashboardController {
         action.setCellFactory(col -> new TableCell<>() {
             private final Button addButton = new Button("Add");
             {
-                addButton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 100px;-fx-pref-height: 30px;");
+                addButton.setStyle("-fx-background-color: #fd6f6f; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 100px;-fx-pref-height: 30px;");
                 addButton.setOnAction(e -> {
                     Product p = getTableView().getItems().get(getIndex());
                     int qty = p.getSpinner().getValue();

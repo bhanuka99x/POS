@@ -16,7 +16,7 @@
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" styleClass="custom-mainback" stylesheets="@../css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.posapp.controllers.OperatorDashboardController">
    <children>
       <AnchorPane prefHeight="629.0" prefWidth="600.0">
-         <VBox alignment="CENTER" layoutX="-1.0" prefHeight="600.0" prefWidth="165.0" spacing="25.0" styleClass="custom-pannel" stylesheets="@../css/Application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0">
+         <VBox alignment="CENTER" layoutX="-18.0" prefHeight="800.0" prefWidth="280.0" spacing="25.0" styleClass="custom-pannel" stylesheets="@../css/Application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-18.0" AnchorPane.topAnchor="0.0">
             <children>
                <Button fx:id="btnmenu" mnemonicParsing="false" onAction="#clickmenu" prefHeight="40.0" prefWidth="130.0" styleClass="custom-btndash" text="Menu">
                   <cursor>
@@ -44,7 +44,7 @@
                   </cursor></Button>
             </children>
          </VBox>
-         <TableView fx:id="tbl_product_display" layoutX="162.0" maxHeight="801.0" maxWidth="802.0" minHeight="559.0" minWidth="540.0" prefHeight="801.0" prefWidth="797.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="162.0" AnchorPane.rightAnchor="441.0" AnchorPane.topAnchor="0.0">
+         <TableView fx:id="tbl_product_display" layoutX="262.0" maxHeight="801.0" maxWidth="802.0" minHeight="559.0" minWidth="540.0" prefHeight="801.0" prefWidth="697.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="262.0" AnchorPane.rightAnchor="441.0" AnchorPane.topAnchor="0.0">
            <columns>
              <TableColumn fx:id="product_image" minWidth="0.0" prefWidth="139.0" text="Product Image" />
              <TableColumn fx:id="product_name" prefWidth="134.0" text="Product Name" />
@@ -56,19 +56,19 @@
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
          </TableView>
-         <Button fx:id="btnlogout" layoutX="30.0" layoutY="700.0" mnemonicParsing="false" onAction="#clicklogout" styleClass="custom-exit" text="Log out">
+         <Button fx:id="btnlogout" layoutX="74.0" layoutY="700.0" mnemonicParsing="false" onAction="#clicklogout" styleClass="custom-exit" text="Log out">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor>
          </Button>
-         <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="40.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="40.0">
+         <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="85.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="85.0">
             <image>
                <Image url="@../assets/logo/pos.me%20dashboard.png" />
             </image>
          </ImageView>
-         <Label fx:id="txtlbl" layoutX="31.0" layoutY="142.0" prefHeight="29.0" prefWidth="57.0" styleClass="txtname" text="who" />
-         <Label fx:id="txtName" layoutX="93.0" layoutY="149.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
-         <Label layoutX="71.0" layoutY="149.0" styleClass="txtname" text=":" />
+         <Label fx:id="txtlbl" layoutX="79.0" layoutY="165.0" prefHeight="29.0" prefWidth="57.0" styleClass="txtname" text="who" />
+         <Label fx:id="txtName" layoutX="136.0" layoutY="172.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
+         <Label layoutX="116.0" layoutY="172.0" styleClass="txtname" text=":" />
          <AnchorPane layoutX="943.0" prefHeight="800.0" prefWidth="442.0" styleClass="custom-pannel" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                <TableView fx:id="tbl_receipt" layoutX="6.0" prefHeight="349.0" prefWidth="431.0">

@@ -17,7 +17,7 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="background">
          <children>
-            <VBox alignment="CENTER" layoutX="-1.0" prefHeight="600.0" prefWidth="165.0" spacing="25.0" styleClass="custom-pannel" stylesheets="@../css/Application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0">
+            <VBox alignment="CENTER" layoutX="-1.0" prefHeight="600.0" prefWidth="280.0" spacing="25.0" styleClass="custom-pannel" stylesheets="@../css/Application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Button fx:id="btnmenu" mnemonicParsing="false" onAction="#clickmenu" prefHeight="40.0" prefWidth="130.0" styleClass="custom-btndash" text="Menu">
                      <cursor>
@@ -45,19 +45,19 @@
                      </cursor></Button>
                </children>
             </VBox>
-            <Button fx:id="btnlogout" layoutX="30.0" layoutY="700.0" mnemonicParsing="false" onAction="#clicklogout" styleClass="custom-exit" text="Log out">
+            <Button fx:id="btnlogout" layoutX="91.0" layoutY="700.0" mnemonicParsing="false" onAction="#clicklogout" styleClass="custom-exit" text="Log out">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="40.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="40.0">
+            <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="99.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="99.0">
                <image>
                   <Image url="@../assets/logo/pos.me%20dashboard.png" />
                </image>
             </ImageView>
-            <Label fx:id="txtlbl" layoutX="26.0" layoutY="142.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
-            <Label fx:id="txtName" layoutX="90.0" layoutY="149.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
-            <TableView fx:id="tablecustomers" layoutX="165.0" layoutY="2.0" prefHeight="800.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="0.0">
+            <Label fx:id="txtlbl" layoutX="85.0" layoutY="142.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
+            <Label fx:id="txtName" layoutX="150.0" layoutY="149.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
+            <TableView fx:id="tablecustomers" layoutX="279.0" layoutY="-1.0" prefHeight="800.0" prefWidth="652.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="279.0" AnchorPane.topAnchor="-1.0">
               <columns>
                   <TableColumn fx:id="cell_checkbox" prefWidth="45.66667175292969" />
                 <TableColumn fx:id="cell_cus_id" prefWidth="152.3333282470703" text="Customer ID" />
@@ -69,13 +69,13 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <TextField fx:id="txtmobilenumber" layoutX="886.0" layoutY="54.0" prefHeight="41.0" prefWidth="253.0" promptText="Mobile Number" styleClass="custom-textfeild1" />
-            <Label layoutX="680.0" layoutY="60.0" styleClass="sales-labels" text="Customer mobile number" />
-            <Button fx:id="btnadd" layoutX="890.0" layoutY="127.0" mnemonicParsing="false" onAction="#clickadd" styleClass="custom-btnadd" text="Add" />
-            <Button fx:id="btnedit" layoutX="1036.0" layoutY="126.0" mnemonicParsing="false" onAction="#clickedit" styleClass="custom-btnadd" text="Update" />
-            <TextArea fx:id="txtmessage" layoutX="703.0" layoutY="203.0" prefHeight="279.0" prefWidth="436.0" promptText="Type Message Here" styleClass="custom-textfeild1" />
-            <Button fx:id="btnsend" layoutX="1041.0" layoutY="515.0" mnemonicParsing="false" onAction="#clicksend" styleClass="custom-btnadd" text="Send" />
-            <Label layoutX="68.0" layoutY="150.0" styleClass="txtlbl" text=":" />
+            <TextField fx:id="txtmobilenumber" layoutX="1129.0" layoutY="54.0" prefHeight="41.0" prefWidth="253.0" promptText="Mobile Number" styleClass="custom-textfeild1" />
+            <Label layoutX="948.0" layoutY="63.0" prefHeight="26.0" prefWidth="174.0" styleClass="sales-labels" text="Customer mobile number" />
+            <Button fx:id="btnadd" layoutX="1090.0" layoutY="127.0" mnemonicParsing="false" onAction="#clickadd" styleClass="custom-btnadd" text="Add" />
+            <Button fx:id="btnedit" layoutX="1236.0" layoutY="126.0" mnemonicParsing="false" onAction="#clickedit" styleClass="custom-btnadd" text="Update" />
+            <TextArea fx:id="txtmessage" layoutX="945.0" layoutY="203.0" prefHeight="279.0" prefWidth="436.0" promptText="Type Message Here" styleClass="custom-textfeild1" />
+            <Button fx:id="btnsend" layoutX="1241.0" layoutY="515.0" mnemonicParsing="false" onAction="#clicksend" styleClass="custom-btnadd" text="Send" />
+            <Label layoutX="130.0" layoutY="149.0" styleClass="txtlbl" text=":" />
          </children></AnchorPane>
    </children>
 </StackPane>

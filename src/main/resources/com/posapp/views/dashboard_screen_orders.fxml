@@ -16,7 +16,7 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-             <VBox alignment="CENTER" layoutX="-1.0" prefHeight="600.0" prefWidth="165.0" spacing="25.0" styleClass="custom-pannel" stylesheets="@../css/Application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0">
+             <VBox alignment="CENTER" layoutX="-1.0" prefHeight="600.0" prefWidth="280.0" spacing="25.0" styleClass="custom-pannel" stylesheets="@../css/Application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0">
              <children>
                  <Button fx:id="btnmenu" mnemonicParsing="false" onAction="#clickmenu" prefHeight="40.0" prefWidth="130.0" styleClass="custom-btndash" text="Menu">
                      <cursor>
@@ -44,19 +44,19 @@
                      </cursor></Button>
              </children>
          </VBox>
-             <Button fx:id="btnlogout" layoutX="30.0" layoutY="700.0" mnemonicParsing="false" onAction="#clicklogout" styleClass="custom-exit" text="Log out">
+             <Button fx:id="btnlogout" layoutX="86.0" layoutY="700.0" mnemonicParsing="false" onAction="#clicklogout" styleClass="custom-exit" text="Log out">
                  <cursor>
                      <Cursor fx:constant="HAND" />
                  </cursor>
              </Button>
-             <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="40.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="40.0">
+             <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="98.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="98.0">
                  <image>
                      <Image url="@../assets/logo/pos.me%20dashboard.png" />
                  </image>
              </ImageView>
-             <Label fx:id="txtlbl" layoutX="26.0" layoutY="142.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
-             <Label fx:id="txtName" layoutX="90.0" layoutY="149.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
-            <TableView fx:id="payment_record" layoutX="216.0" layoutY="128.0" prefHeight="673.0" prefWidth="1236.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="0.0">
+             <Label fx:id="txtlbl" layoutX="86.0" layoutY="142.0" prefHeight="29.0" prefWidth="122.0" styleClass="txtname" text="who" />
+             <Label fx:id="txtName" layoutX="156.0" layoutY="149.0" prefHeight="16.0" prefWidth="75.0" styleClass="txtlbl" text="name" />
+            <TableView fx:id="payment_record" layoutX="279.0" layoutY="127.0" prefHeight="673.0" prefWidth="1121.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="279.0" AnchorPane.rightAnchor="0.0">
               <columns>
                   <TableColumn fx:id="cell_payment_id" prefWidth="56.99998474121094" text="ID" />
                 <TableColumn fx:id="cell_payment_option" prefWidth="131.33331298828125" text="Payment option" />
@@ -73,9 +73,9 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <TextField fx:id="txtsearch" layoutX="192.0" layoutY="63.0" prefHeight="37.0" prefWidth="226.0" promptText="Search ID" styleClass="custom-textfeild1" AnchorPane.leftAnchor="192.0" />
-            <Button fx:id="btnsearch" layoutX="435.0" layoutY="66.0" mnemonicParsing="false" onAction="#clicksearch" styleClass="custom-btnadd" text="Search" AnchorPane.leftAnchor="435.0" />
-            <Label layoutX="70.0" layoutY="149.0" styleClass="txtlbl" text=":" />
+            <TextField fx:id="txtsearch" layoutX="289.0" layoutY="63.0" prefHeight="37.0" prefWidth="226.0" promptText="Search ID" styleClass="custom-textfeild1" AnchorPane.leftAnchor="289.0" />
+            <Button fx:id="btnsearch" layoutX="532.0" layoutY="66.0" mnemonicParsing="false" onAction="#clicksearch" styleClass="custom-btnadd" text="Search" AnchorPane.leftAnchor="532.0" />
+            <Label layoutX="132.0" layoutY="149.0" styleClass="txtlbl" text=":" />
          </children></AnchorPane>
    </children>
 </StackPane>

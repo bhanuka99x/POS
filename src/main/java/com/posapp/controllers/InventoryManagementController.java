@@ -117,6 +117,7 @@ public class InventoryManagementController {
 
             stmt.executeUpdate();
             LoadInventoryData();
+            Alerts.showSuccess("POS","Item Added Successfully");
             clearFields();
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,6 +150,7 @@ public class InventoryManagementController {
             stmt.setInt(5,selected.getId());
             stmt.executeUpdate();
             LoadInventoryData();
+            Alerts.showSuccess("POS","Inventory Update success");
             clearFields();
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,7 +212,7 @@ public class InventoryManagementController {
             return ItemImage;
         }
     }
-    public void ConfigureInventorytable(){
+    public void ConfigureInventorytable() {
         namecell.setCellValueFactory(new PropertyValueFactory<>("itemname"));
         quantitycell.setCellValueFactory(new PropertyValueFactory<>("itemquantity"));
         pricecell.setCellValueFactory(new PropertyValueFactory<>("itemprice"));
@@ -223,40 +225,45 @@ public class InventoryManagementController {
         });
 
         imagecell.setCellValueFactory(new PropertyValueFactory<>("itemimage"));
-        cell_action.setCellFactory(col -> new TableCell<>() {
-            public   Button removebutton = new Button("Remove");
 
-            {
-                removebutton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 80px;-fx-pref-height: 30px;");
-                removebutton.setOnAction(actionEvent -> {
-                    InventoryItem item = getTableView().getItems().get(getIndex());
-                    if (item == null) return;
+            cell_action.setCellFactory(col -> new TableCell<>() {
+                public Button removebutton = new Button("Remove");
 
-                    try (Connection conn = dbconn.connect()) {
-                        String sql = "DELETE FROM inventory WHERE inventory_id = ?";
-                        PreparedStatement stmt = conn.prepareStatement(sql);
-                        stmt.setInt(1, item.getId());
-                        int rowsAffected = stmt.executeUpdate();
-                        if (rowsAffected > 0) {
-                            Inventorylist.remove(item); // remove from UI list
-                            clearFields();
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
+                {
+                    removebutton.setStyle("-fx-background-color: #fd6f6f; -fx-text-fill: white; -fx-font-weight: bold;-fx-font-family:Calibri;-fx-font-size:15px;-fx-pref-width: 80px;-fx-pref-height: 30px;");
+                        removebutton.setOnAction(actionEvent -> {
+                            if (Alerts.showconfirmation("POS", "", "Are you sure .you want to delete this item?")) {
+                                InventoryItem item = getTableView().getItems().get(getIndex());
+                                if (item == null) return;
 
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(removebutton);
+                                try (Connection conn = dbconn.connect()) {
+                                    String sql = "DELETE FROM inventory WHERE inventory_id = ?";
+                                    PreparedStatement stmt = conn.prepareStatement(sql);
+                                    stmt.setInt(1, item.getId());
+                                    int rowsAffected = stmt.executeUpdate();
+                                    if (rowsAffected > 0) {
+                                        Inventorylist.remove(item); // remove from UI list
+                                        clearFields();
+                                    }
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                 }
-            }
-        });
+
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(removebutton);
+                    }
+                }
+            });
+
 
         LoadInventoryData();
         tblinventory.setOnMouseClicked(event -> {

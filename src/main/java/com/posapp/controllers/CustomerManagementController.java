@@ -72,7 +72,7 @@ public class CustomerManagementController {
             private final Button deleteBtn = new Button("Delete");
 
             {
-                deleteBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+                deleteBtn.setStyle("-fx-background-color: #fd6f6f; -fx-text-fill: white;");
                 deleteBtn.setOnAction(e -> {
                     Customer customer = getTableView().getItems().get(getIndex());
                     int customerId = customer.getCustomerId();

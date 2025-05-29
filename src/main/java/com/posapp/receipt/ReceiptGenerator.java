@@ -28,7 +28,7 @@ public class ReceiptGenerator {
             document.open();
 
             // Header
-            Paragraph header = new Paragraph("My Restaurant POS", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10));
+            Paragraph header = new Paragraph("Luxe Spoons", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10));
             header.setAlignment(Element.ALIGN_CENTER);
             document.add(header);
 

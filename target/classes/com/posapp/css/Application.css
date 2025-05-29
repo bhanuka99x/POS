@@ -45,7 +45,7 @@
     -fx-padding: 3px;
 }
 .background{
-    -fx-background-color: #ffede3;
+    -fx-background-color: #a4d0ff;
 }
 .header-lable{
     -fx-font-size: 25px;
@@ -120,7 +120,8 @@
 }
 /* table */
 .table-view{
-    -fx-background-color: #ffe3ad;
+    -fx-background-color: #a4d0ff;
+
    -fx-border-width: none;
 
 }
@@ -129,8 +130,8 @@
 
 }
 .table-view .column-header{
-    -fx-background-color: #ffeec3;
-    -fx-font-size: 13px;
+    -fx-background-color: #88a2ff;
+    -fx-font-size: 18px;
     -fx-font-family: Calibri;
 
 }
@@ -151,5 +152,5 @@
 /* sales */
 
 .sales-labels{
-    -fx-font-size: 17px;
+    -fx-font-size: 15px;
 }
